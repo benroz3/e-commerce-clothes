@@ -1,10 +1,13 @@
 "use client";
-import InputComponent from "@/components/InputComponent";
-import SelectComponent from "@/components/SelectComponent";
-import { registrationFormControls } from "@/data/formControls";
+import { useRouter } from "next/navigation";
+import InputComponent from "@/app/src/components/InputComponent";
+import SelectComponent from "@/app/src/components/SelectComponent";
+import { registrationFormControls } from "@/app/src/data/formControls";
 
 const Register = () => {
   const isRegistered = false; //! dummy data
+
+  const router = useRouter();
 
   return (
     <div className="bg-white relative">
@@ -44,6 +47,15 @@ const Register = () => {
                   <button className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
                     Register
                   </button>
+                  <div className="flex flex-col gap-2">
+                    <p>Create new account</p>
+                    <button
+                      onClick={() => router.push("/login")}
+                      className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide"
+                    >
+                      Login
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

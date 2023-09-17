@@ -16,7 +16,7 @@ export const registrationFormControls = [
   {
     id: "password",
     type: "password",
-    placeholder: "Enter password",
+    placeholder: "Strong password",
     label: "Password",
     componentType: "input",
   },
@@ -43,14 +43,14 @@ export const loginFormControls = [
   {
     id: "email",
     type: "email",
-    placeholder: "Enter your email",
+    placeholder: "example@example.com",
     label: "Email",
     componentType: "input",
   },
   {
     id: "password",
     type: "password",
-    placeholder: "Enter your password",
+    placeholder: "Strong password",
     label: "Password",
     componentType: "input",
   },
