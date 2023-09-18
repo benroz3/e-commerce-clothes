@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NavItems from "./NavItems";
 import { setShowNavModal } from "../redux/slices/navModal";
-import { RootState } from "@/utils/types";
+import { RootState } from "@/app/utils/types";
 import CommonModal from "./CommonModal";
 
 const Navbar = () => {

@@ -1,7 +1,9 @@
-import mongoose from 'mongoose'
+import express from "express";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 //configs
+const app = express();
 dotenv.config();
 
 //mongoDB connection
@@ -18,4 +20,11 @@ const connectMongo = async () => {
   });
 };
 
-export default connectMongo
+//middlewares
+app.use(express.json());
+
+//start server
+app.listen(8080, () => {
+  connectMongo();
+  console.log(`Server running.`);
+});

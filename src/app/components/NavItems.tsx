@@ -1,4 +1,4 @@
-import { adminNavOptions, navOptions } from "@/app/src/data/navOptions";
+import { adminNavOptions, navOptions } from "@/app/data/navOptions";
 
 const NavItems: React.FC<{ isModal: boolean }> = ({ isModal }) => {
   const isAdminView = false; //!dummy data
