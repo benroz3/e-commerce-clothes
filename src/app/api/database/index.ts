@@ -1,13 +1,9 @@
-import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-//configs
-const app = express();
 dotenv.config();
-
-//mongoDB connection
 const mongoURL = process.env.MONGO_URL || "";
+
 const connectMongo = async () => {
   try {
     await mongoose.connect(mongoURL);
@@ -20,11 +16,4 @@ const connectMongo = async () => {
   });
 };
 
-//middlewares
-app.use(express.json());
-
-//start server
-app.listen(8080, () => {
-  connectMongo();
-  console.log(`Server running.`);
-});
+export default connectMongo;

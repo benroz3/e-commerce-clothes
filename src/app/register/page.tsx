@@ -1,8 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
-import InputComponent from "@/app/components/InputComponent";
-import SelectComponent from "@/app/components/SelectComponent";
-import { registrationFormControls } from "@/app/data/formControls";
+import InputComponent from "@/components/InputComponent";
+import SelectComponent from "@/components/SelectComponent";
+import { registrationFormControls } from "@/data/formControls";
 
 const Register = () => {
   const isRegistered = false; //! dummy data

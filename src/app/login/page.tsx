@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
-import InputComponent from "@/app/components/InputComponent";
-import { loginFormControls } from "@/app/data/formControls";
+import InputComponent from "@/components/InputComponent";
+import { loginFormControls } from "@/data/formControls";
 
 const Login = () => {
   const router = useRouter();
