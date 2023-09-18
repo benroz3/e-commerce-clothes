@@ -16,7 +16,7 @@ const SelectComponent: React.FC<{
       >
         {options && options.length ? (
           options.map((option) => (
-            <option key={option.id} id={option.id} value={value}>
+            <option key={option.id} id={option.id} value={option.id}>
               {option.label}
             </option>
           ))

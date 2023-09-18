@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const mongoURL = process.env.MONGO_URL || "";
 
-const connectMongo = async () => {
+export const connectMongo = async () => {
   try {
     await mongoose.connect(mongoURL);
     console.log("Connected to MongoDB.");
@@ -15,5 +15,3 @@ const connectMongo = async () => {
     console.log("Disconnected from MongoDB!");
   });
 };
-
-export default connectMongo;

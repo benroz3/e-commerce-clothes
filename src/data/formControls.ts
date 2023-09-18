@@ -1,6 +1,6 @@
 export const registrationFormControls = [
   {
-    id: "name",
+    id: "username",
     type: "text",
     placeholder: "Enter name",
     label: "Name",
@@ -58,7 +58,7 @@ export const loginFormControls = [
 
 export const adminAddProductformControls = [
   {
-    id: "name",
+    id: "username",
     type: "text",
     placeholder: "Enter name",
     label: "Name",
