@@ -37,8 +37,10 @@ const Register = () => {
 
   const registerHandler = async () => {
     const data = await registerNewUser(newUser);
-    if (data.success) router.push("/login");
-    else
+    if (data.success) {
+      setNewUser(initialUser);
+      router.push("/login");
+    } else
       toast.error("Something went wrong!", {
         position: toast.POSITION.TOP_RIGHT,
       });

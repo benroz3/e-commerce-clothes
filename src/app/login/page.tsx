@@ -1,11 +1,52 @@
 "use client";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 import InputComponent from "@/components/InputComponent";
 import PageTransition from "@/components/PageTransition";
 import { loginFormControls } from "@/data/formControls";
+import { loginUser } from "@/utils/apiCalls";
+import { setUser } from "@/redux/slices/userSlice";
 
 const Login = () => {
+  const initialUser: { [key: string]: string } = {
+    email: "",
+    password: "",
+  };
+
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [userData, setUserData] = useState(initialUser);
+
+  const isUserValid = () => {
+    return (
+      userData &&
+      userData.email &&
+      userData.email.trim() !== "" &&
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userData.email) &&
+      userData.password &&
+      userData.password.trim() !== "" &&
+      userData.password.length > 5
+    );
+  };
+
+  const loginHandler = async () => {
+    const data = await loginUser(userData);
+    if (data.success) {
+      setUserData(initialUser);
+      dispatch(setUser(data.token.user));
+
+      Cookies.set("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.token.user));
+
+      router.push("/");
+    } else
+      toast.error("Something went wrong!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+  };
 
   return (
     <PageTransition>
@@ -24,11 +65,20 @@ const Login = () => {
                       label={controlItem.label}
                       placeholder={controlItem.placeholder}
                       type={controlItem.type}
-                      value={""}
-                      onChange={() => {}}
+                      value={userData[controlItem.id]}
+                      onChange={(event) => {
+                        setUserData({
+                          ...userData,
+                          [controlItem.id]: event.target.value,
+                        });
+                      }}
                     />
                   ))}
-                  <button className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
+                  <button
+                    disabled={!isUserValid()}
+                    onClick={loginHandler}
+                    className="disabled:opacity-50 inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide"
+                  >
                     Login
                   </button>
                   <div className="flex flex-col gap-2">

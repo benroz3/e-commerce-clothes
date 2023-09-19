@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import User from "../models/User";
 import { connectMongo } from "../database/connectMongo";
 
-//validator
+//request validator
 const schema = Joi.object({
   username: Joi.string().required(),
   email: Joi.string().email().required(),
@@ -14,12 +14,11 @@ const schema = Joi.object({
 
 export const dynamic = "force-dynamic";
 
-//register
 export async function POST(req: Request) {
   await connectMongo();
   const { username, email, password, role } = await req.json();
-  const { error } = schema.validate({ username, email, password, role });
 
+  const { error } = schema.validate({ username, email, password, role });
   if (error)
     return NextResponse.json({
       success: false,
@@ -51,5 +50,9 @@ export async function POST(req: Request) {
       });
   } catch (error) {
     console.log(error);
+    return NextResponse.json({
+      success: false,
+      message: "There was an error registering!",
+    });
   }
 }

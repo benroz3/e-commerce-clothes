@@ -12,7 +12,9 @@ export const registerNewUser = async (
   }
 };
 
-export const loginUser = async (formData: LoginUserType) => {
+export const loginUser = async (
+  formData: LoginUserType | { [key: string]: string }
+) => {
   try {
     const res = await axios.post("/api/login", formData);
     return res.data;

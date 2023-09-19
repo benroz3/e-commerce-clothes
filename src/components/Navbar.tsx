@@ -2,7 +2,7 @@
 import { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NavItems from "./NavItems";
-import { setShowNavModal } from "@/redux/slices/navModal";
+import { setShowNavModal } from "@/redux/slices/navModalSlice";
 import { RootState } from "@/utils/types";
 import CommonModal from "./CommonModal";
 
