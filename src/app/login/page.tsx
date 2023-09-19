@@ -35,11 +35,11 @@ const Login = () => {
   const loginHandler = async () => {
     const data = await loginUser(userData);
     if (data.success) {
+      localStorage.setItem("user", JSON.stringify(data.token.user));
+      Cookies.set("token", data.token);
+
       setUserData(initialUser);
       dispatch(setUser(data.token.user));
-
-      Cookies.set("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.token.user));
 
       router.push("/");
     } else

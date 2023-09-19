@@ -1,5 +1,6 @@
-import { UserStateType } from "@/utils/types";
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+import { UserStateType } from "@/utils/types";
 
 export const user = createSlice({
   name: "user",
@@ -10,7 +11,7 @@ export const user = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
-      state.isAuthUser = state?.user?.role === "admin" || false;
+      state.isAuthUser = Cookies.get("token") !== undefined;
     },
     removeUser: (state) => {
       state.user = null;
