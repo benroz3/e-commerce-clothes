@@ -62,13 +62,11 @@ const Login = () => {
       router.push("/");
     } else {
       setLoading(false);
-      toast.error("Something went wrong!", {
+      toast.error(data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
   };
-
-  console.log(loading)
 
   return (
     <PageTransition>

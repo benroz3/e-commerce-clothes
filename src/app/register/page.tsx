@@ -59,7 +59,7 @@ const Register = () => {
       router.push("/login");
     } else {
       setLoading(false);
-      toast.error("Something went wrong!", {
+      toast.error(data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
