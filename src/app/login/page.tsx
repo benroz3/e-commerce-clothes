@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import InputComponent from "@/components/InputComponent";
+import Loader from "@/components/Loader";
 import PageTransition from "@/components/PageTransition";
 import { loginFormControls } from "@/data/formControls";
 import { loginUser } from "@/utils/apiCalls";
@@ -20,6 +21,7 @@ const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(initialUser);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (Cookies.get("token") !== undefined) {
@@ -28,6 +30,7 @@ const Login = () => {
     }
   }, [Cookies]);
 
+  // preventing user from visiting login page
   const { isAuthUser } = useSelector((state: RootState) => state.user);
   useEffect(() => {
     if (isAuthUser) router.push("/");
@@ -46,6 +49,7 @@ const Login = () => {
   };
 
   const loginHandler = async () => {
+    setLoading(true);
     const data = await loginUser(userData);
     if (data.success) {
       localStorage.setItem("user", JSON.stringify(data.token.user));
@@ -54,12 +58,17 @@ const Login = () => {
       setUserData(initialUser);
       dispatch(setUser(data.token.user));
 
+      setLoading(false);
       router.push("/");
-    } else
+    } else {
+      setLoading(false);
       toast.error("Something went wrong!", {
         position: toast.POSITION.TOP_RIGHT,
       });
+    }
   };
+
+  console.log(loading)
 
   return (
     <PageTransition>
@@ -92,7 +101,16 @@ const Login = () => {
                     onClick={loginHandler}
                     className="disabled:opacity-50 inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide"
                   >
-                    Login
+                    {loading ? (
+                      <Loader
+                        text="Logging in"
+                        color="#ffffff"
+                        loading={loading}
+                        size={10}
+                      />
+                    ) : (
+                      "Login"
+                    )}
                   </button>
                   <div className="flex flex-col gap-2">
                     <p>Create new account</p>

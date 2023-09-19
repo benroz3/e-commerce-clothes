@@ -14,7 +14,7 @@ export default function Home() {
     if (Cookies.get("token") !== undefined) {
       dispatch(setIsAuthUser(Cookies.get("token") !== undefined));
       dispatch(setUser(JSON.parse(localStorage.getItem("user") || "")));
-    } else router.push("/login");
+    }
   }, [Cookies]);
 
   return (

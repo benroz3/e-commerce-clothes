@@ -21,7 +21,6 @@ const Navbar = () => {
     Cookies.remove("token");
     localStorage.clear();
     dispatch(removeUser());
-    router.push("/login");
   };
 
   return (
@@ -47,7 +46,11 @@ const Navbar = () => {
                 <button>Admin View</button>
               )
             ) : null}
-            {isAuthUser && <button onClick={logoutHandler}>Logout</button>}
+            {isAuthUser ? (
+              <button onClick={logoutHandler}>Logout</button>
+            ) : (
+              <button onClick={() => router.push("/login")}>Login</button>
+            )}
             <button
               data-collapse-toggle="navbar-sticky"
               type="button"

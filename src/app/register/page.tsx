@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import InputComponent from "@/components/InputComponent";
 import SelectComponent from "@/components/SelectComponent";
 import PageTransition from "@/components/PageTransition";
+import Loader from "@/components/Loader";
 import { registrationFormControls } from "@/data/formControls";
 import { registerNewUser } from "@/utils/apiCalls";
 import { setIsAuthUser, setUser } from "@/redux/slices/userSlice";
@@ -24,6 +25,7 @@ const Register = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [newUser, setNewUser] = useState(initialUser);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (Cookies.get("token") !== undefined) {
@@ -47,14 +49,20 @@ const Register = () => {
   };
 
   const registerHandler = async () => {
+    setLoading(true);
     const data = await registerNewUser(newUser);
+
     if (data.success) {
       setNewUser(initialUser);
+      setLoading(false);
+
       router.push("/login");
-    } else
+    } else {
+      setLoading(false);
       toast.error("Something went wrong!", {
         position: toast.POSITION.TOP_RIGHT,
       });
+    }
   };
 
   return (
@@ -108,7 +116,16 @@ const Register = () => {
                       onClick={registerHandler}
                       className="disabled:opacity-50 inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide"
                     >
-                      Register
+                      {loading ? (
+                        <Loader
+                          text="Registering"
+                          color="#ffffff"
+                          loading={loading}
+                          size={10}
+                        />
+                      ) : (
+                        "Register"
+                      )}
                     </button>
                     <div className="flex flex-col gap-2">
                       <p>Create new account</p>

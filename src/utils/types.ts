@@ -1,8 +1,8 @@
 export interface RootState {
+  user: UserStateType;
   navModal: {
     showNavModal: boolean;
   };
-  user: UserStateType;
 }
 
 export interface UserType {
