@@ -1,12 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import InputComponent from "@/components/InputComponent";
 import SelectComponent from "@/components/SelectComponent";
 import PageTransition from "@/components/PageTransition";
 import { registrationFormControls } from "@/data/formControls";
 import { registerNewUser } from "@/utils/apiCalls";
+import { setIsAuthUser, setUser } from "@/redux/slices/userSlice";
 
 const Register = () => {
   const isRegistered = false; //! dummy data
@@ -19,7 +22,15 @@ const Register = () => {
   };
 
   const router = useRouter();
+  const dispatch = useDispatch();
   const [newUser, setNewUser] = useState(initialUser);
+
+  useEffect(() => {
+    if (Cookies.get("token") !== undefined) {
+      dispatch(setIsAuthUser(Cookies.get("token") !== undefined));
+      dispatch(setUser(JSON.parse(localStorage.getItem("user") || "")));
+    }
+  }, [Cookies]);
 
   const isUserValid = () => {
     return (

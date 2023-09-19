@@ -1,14 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import InputComponent from "@/components/InputComponent";
 import PageTransition from "@/components/PageTransition";
 import { loginFormControls } from "@/data/formControls";
 import { loginUser } from "@/utils/apiCalls";
-import { setUser } from "@/redux/slices/userSlice";
+import { setIsAuthUser, setUser } from "@/redux/slices/userSlice";
+import { RootState } from "@/utils/types";
 
 const Login = () => {
   const initialUser: { [key: string]: string } = {
@@ -19,6 +20,18 @@ const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(initialUser);
+
+  useEffect(() => {
+    if (Cookies.get("token") !== undefined) {
+      dispatch(setIsAuthUser(Cookies.get("token") !== undefined));
+      dispatch(setUser(JSON.parse(localStorage.getItem("user") || "")));
+    }
+  }, [Cookies]);
+
+  const { isAuthUser } = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    if (isAuthUser) router.push("/");
+  }, [isAuthUser, router]);
 
   const isUserValid = () => {
     return (

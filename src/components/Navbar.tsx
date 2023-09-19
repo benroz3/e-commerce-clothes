@@ -1,20 +1,28 @@
 "use client";
 import { Fragment } from "react";
+import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 import NavItems from "./NavItems";
-import { setShowNavModal } from "@/redux/slices/navModalSlice";
-import { RootState } from "@/utils/types";
 import CommonModal from "./CommonModal";
+import { setShowNavModal } from "@/redux/slices/navModalSlice";
+import { removeUser } from "@/redux/slices/userSlice";
+import { RootState } from "@/utils/types";
 
 const Navbar = () => {
   const isAdminView = false; //!dummy data
-  const isAuthUser = true; //!dummy data
-  const user = { role: "admin" }; //!dummy data
 
+  const router = useRouter();
   const dispatch = useDispatch();
-  const showNavModal = useSelector(
-    (state: RootState) => state.navModal.showNavModal
-  );
+  const { showNavModal } = useSelector((state: RootState) => state.navModal);
+  const { user, isAuthUser } = useSelector((state: RootState) => state.user);
+
+  const logoutHandler = () => {
+    Cookies.remove("token");
+    localStorage.clear();
+    dispatch(removeUser());
+    router.push("/login");
+  };
 
   return (
     <>
@@ -32,14 +40,14 @@ const Navbar = () => {
                 <button>Cart</button>
               </Fragment>
             ) : null}
-            {user.role === "admin" ? (
+            {user?.role === "admin" ? (
               isAdminView ? (
                 <button>Client View</button>
               ) : (
                 <button>Admin View</button>
               )
             ) : null}
-            {isAuthUser ? <button>Logout</button> : <button>Login</button>}
+            {isAuthUser && <button onClick={logoutHandler}>Logout</button>}
             <button
               data-collapse-toggle="navbar-sticky"
               type="button"
