@@ -33,7 +33,7 @@ export const registrationFormControls = [
       },
       {
         id: "customer",
-        label: "customer",
+        label: "Customer",
       },
     ],
   },
