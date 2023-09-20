@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navElements/Navbar";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider store={store}>
           <Navbar />
-          <main className="flex min-h-screen flex-col mt-[75px]">
+          <main className="flex min-h-screen flex-col mt-[80px]">
             {children}
           </main>
           <ToastContainer />

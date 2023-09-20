@@ -55,7 +55,9 @@ const CommonModal: React.FC<{
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                       {showModalTitle ? (
-                        <div className="flex items-start justify-between">
+                        <div
+                          className="flex items-start justify-between"
+                        >
                           <Dialog.Title>{modalTitle}</Dialog.Title>
                         </div>
                       ) : null}

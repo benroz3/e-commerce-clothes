@@ -1,7 +1,14 @@
+import { Dispatch } from "react";
+import { useRouter } from "next/navigation";
 import { adminNavOptions, navOptions } from "@/data/navOptions";
 
-const NavItems: React.FC<{ isModal: boolean }> = ({ isModal }) => {
-  const isAdminView = false; //!dummy data
+const NavItems: React.FC<{
+  isModal: boolean;
+  isAdminView: boolean;
+  dispatch: Dispatch<any>;
+  setShow: () => void;
+}> = ({ isModal, isAdminView, setShow, dispatch }) => {
+  const router = useRouter();
 
   return (
     <div
@@ -19,6 +26,10 @@ const NavItems: React.FC<{ isModal: boolean }> = ({ isModal }) => {
           ? adminNavOptions.map((option) => (
               <li
                 key={option.id}
+                onClick={() => {
+                  if (isModal) dispatch(setShow());
+                  router.push(option.path);
+                }}
                 className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p0 hover:text-gray-500"
               >
                 {option.label}
@@ -27,6 +38,10 @@ const NavItems: React.FC<{ isModal: boolean }> = ({ isModal }) => {
           : navOptions.map((option) => (
               <li
                 key={option.id}
+                onClick={() => {
+                  if (isModal) dispatch(setShow());
+                  router.push(option.path);
+                }}
                 className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p0 hover:text-gray-500"
               >
                 {option.label}

@@ -1,21 +1,29 @@
 "use client";
-import { Fragment } from "react";
-import { useRouter } from "next/navigation";
+import { Fragment, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import NavItems from "./NavItems";
 import CommonModal from "./CommonModal";
 import { setShowNavModal } from "@/redux/slices/navModalSlice";
-import { removeUser } from "@/redux/slices/userSlice";
+import { removeUser, setIsAuthUser, setUser } from "@/redux/slices/userSlice";
 import { RootState } from "@/utils/types";
 
 const Navbar = () => {
-  const isAdminView = false; //!dummy data
-
-  const router = useRouter();
   const dispatch = useDispatch();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const { showNavModal } = useSelector((state: RootState) => state.navModal);
   const { user, isAuthUser } = useSelector((state: RootState) => state.user);
+  const isAdminView = pathname.includes("admin-view");
+
+  useEffect(() => {
+    if (Cookies.get("token") !== undefined) {
+      dispatch(setIsAuthUser(Cookies.get("token") !== undefined));
+      dispatch(setUser(JSON.parse(localStorage.getItem("user") || "")));
+    }
+  }, [Cookies, pathname]);
 
   const logoutHandler = () => {
     Cookies.remove("token");
@@ -27,7 +35,12 @@ const Navbar = () => {
     <>
       <nav className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <div className="flex items-center cursor-pointer">
+          <div
+            onClick={() => {
+              router.push("/");
+            }}
+            className="flex items-center cursor-pointer"
+          >
             <span className="self-center text-2xl font-semibold whitespace-nowrap">
               Clothing X
             </span>
@@ -41,9 +54,21 @@ const Navbar = () => {
             ) : null}
             {user?.role === "admin" ? (
               isAdminView ? (
-                <button>Client View</button>
+                <button
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                >
+                  Client View
+                </button>
               ) : (
-                <button>Admin View</button>
+                <button
+                  onClick={() => {
+                    router.push("/admin-view");
+                  }}
+                >
+                  Admin View
+                </button>
               )
             ) : null}
             {isAuthUser ? (
@@ -75,18 +100,30 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
-          <NavItems isModal={false} />
+          <NavItems
+            isModal={false}
+            isAdminView={isAdminView}
+            setShow={setShowNavModal}
+            dispatch={dispatch}
+          />
         </div>
       </nav>
       <CommonModal
-        modalTitle={"title"}
-        mainContent={<NavItems isModal={true} />}
+        modalTitle={"Clothing-X"} //!fix
+        mainContent={
+          <NavItems
+            isModal={true}
+            isAdminView={isAdminView}
+            setShow={setShowNavModal}
+            dispatch={dispatch}
+          />
+        }
         showModalTitle={true}
         showButtons={true}
         show={showNavModal}
         setShow={setShowNavModal}
         dispatch={dispatch}
-        buttonComponent={<></>}
+        buttonComponent={<></>} //!fix
       />
     </>
   );

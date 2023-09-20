@@ -56,18 +56,18 @@ export const loginFormControls = [
   },
 ];
 
-export const adminAddProductformControls = [
+export const adminAddProductFormControls = [
   {
-    id: "username",
+    id: "name",
     type: "text",
-    placeholder: "Enter name",
+    placeholder: "Enter product name",
     label: "Name",
     componentType: "input",
   },
   {
     id: "price",
     type: "number",
-    placeholder: "Enter price",
+    placeholder: "Enter product price",
     label: "Price",
     componentType: "input",
   },
@@ -102,7 +102,7 @@ export const adminAddProductformControls = [
   {
     id: "deliveryInfo",
     type: "text",
-    placeholder: "Enter deliveryInfo",
+    placeholder: "Enter delivery info",
     label: "Delivery Info",
     componentType: "input",
   },
@@ -126,8 +126,46 @@ export const adminAddProductformControls = [
   {
     id: "priceDrop",
     type: "number",
-    placeholder: "Enter Price Drop",
+    placeholder: "Enter price drop",
     label: "Price Drop",
+    componentType: "input",
+  },
+];
+
+export const addNewAddressFormControls = [
+  {
+    id: "fullName",
+    type: "input",
+    placeholder: "Enter your full name",
+    label: "Full Name",
+    componentType: "input",
+  },
+  {
+    id: "address",
+    type: "input",
+    placeholder: "Enter your full address",
+    label: "Address",
+    componentType: "input",
+  },
+  {
+    id: "city",
+    type: "input",
+    placeholder: "Enter your city",
+    label: "City",
+    componentType: "input",
+  },
+  {
+    id: "country",
+    type: "input",
+    placeholder: "Enter your country",
+    label: "Country",
+    componentType: "input",
+  },
+  {
+    id: "postalCode",
+    type: "input",
+    placeholder: "Enter your postal code",
+    label: "Postal Code",
     componentType: "input",
   },
 ];

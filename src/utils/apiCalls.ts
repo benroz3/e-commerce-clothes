@@ -1,5 +1,10 @@
 import axios from "axios";
-import { LoginUserType, UserType } from "./types";
+import {
+  AvailableSizesType,
+  LoginUserType,
+  ProductType,
+  UserType,
+} from "./types";
 
 export const registerNewUser = async (
   formData: UserType | { [key: string]: string }
@@ -17,6 +22,23 @@ export const loginUser = async (
 ) => {
   try {
     const res = await axios.post("/api/login", formData);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addNewProduct = async (
+  formData:
+    | ProductType
+    | {
+        [key: string]: string | number | AvailableSizesType[];
+      }
+) => {
+  try {
+    const res = await axios.post("/api/admin/add-product", formData, {
+      withCredentials: true,
+    });
     return res.data;
   } catch (error) {
     console.log(error);

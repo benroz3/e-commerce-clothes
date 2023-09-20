@@ -1,16 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import InputComponent from "@/components/InputComponent";
-import Loader from "@/components/Loader";
-import PageTransition from "@/components/PageTransition";
+import InputComponent from "@/components/formElements/InputComponent";
+import Loader from "@/components/style/Loader";
+import PageTransition from "@/components/style/PageTransition";
 import { loginFormControls } from "@/data/formControls";
 import { loginUser } from "@/utils/apiCalls";
-import { setIsAuthUser, setUser } from "@/redux/slices/userSlice";
-import { RootState } from "@/utils/types";
+import { setUser } from "@/redux/slices/userSlice";
 
 const Login = () => {
   const initialUser: { [key: string]: string } = {
@@ -22,19 +21,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(initialUser);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (Cookies.get("token") !== undefined) {
-      dispatch(setIsAuthUser(Cookies.get("token") !== undefined));
-      dispatch(setUser(JSON.parse(localStorage.getItem("user") || "")));
-    }
-  }, [Cookies]);
-
-  // preventing user from visiting login page
-  const { isAuthUser } = useSelector((state: RootState) => state.user);
-  useEffect(() => {
-    if (isAuthUser) router.push("/");
-  }, [isAuthUser, router]);
 
   const isUserValid = () => {
     return (
