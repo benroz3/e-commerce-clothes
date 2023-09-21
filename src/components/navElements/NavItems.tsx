@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
 import { useRouter } from "next/navigation";
 import { adminNavOptions, navOptions } from "@/data/navOptions";
+import { setProduct } from "@/redux/slices/productSlice";
 
 const NavItems: React.FC<{
   isModal: boolean;
@@ -28,6 +29,7 @@ const NavItems: React.FC<{
                 key={option.id}
                 onClick={() => {
                   if (isModal) dispatch(setShow());
+                  dispatch(setProduct(null));
                   router.push(option.path);
                 }}
                 className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p0 hover:text-gray-500"

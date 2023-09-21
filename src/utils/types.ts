@@ -1,5 +1,6 @@
 export interface RootState {
   user: UserStateType;
+  product: { updatedProduct: UpdateProductType | null };
   navModal: {
     showNavModal: boolean;
   };
@@ -13,7 +14,12 @@ export interface UserType {
 }
 
 export interface UserStateType {
-  user: { id: string; username: string; email: string; role: string } | null;
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    role: string;
+  } | null;
   isAuthUser: boolean;
 }
 
@@ -37,6 +43,22 @@ export interface AdminProductFormControlsType {
 }
 
 export interface ProductType {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  priceDrop: number;
+  category: string;
+  sizes: AvailableSizesType[];
+  deliveryInfo: string;
+  onSale: string;
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UpdateProductType {
+  _id: string;
   name: string;
   description: string;
   price: number;

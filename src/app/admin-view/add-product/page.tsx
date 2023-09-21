@@ -1,5 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import { toast } from "react-toastify";
 import PageTransition from "@/components/style/PageTransition";
 import TileComponent from "@/components/formElements/TileComponent";
@@ -9,16 +12,21 @@ import Loader from "@/components/style/Loader";
 import { adminAddProductFormControls } from "@/data/formControls";
 import { uploadImageToFirebase } from "@/utils/firebase";
 import { AvailableSizes } from "@/data/sizes";
-import { addNewProduct } from "@/utils/apiCalls";
+import { addNewProduct, updateProduct } from "@/utils/apiCalls";
+import { setProduct } from "@/redux/slices/productSlice";
 import {
   AdminProductFormControlsType,
   AvailableSizesType,
+  RootState,
+  UpdateProductType,
 } from "@/utils/types";
 
 const page = () => {
-  const initialProduct: {
-    [key: string]: string | number | AvailableSizesType[];
-  } = {
+  const initialProduct:
+    | {
+        [key: string]: string | number | AvailableSizesType[];
+      }
+    | UpdateProductType = {
     name: "",
     description: "",
     price: 0,
@@ -30,8 +38,32 @@ const page = () => {
     imageUrl: "",
   };
 
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState(initialProduct);
+  const { updatedProduct } = useSelector((state: RootState) => state.product);
+
+  useEffect(() => {
+    if (updatedProduct) {
+      const adaptedProduct: {
+        [key: string]: string | number | AvailableSizesType[];
+      } = {
+        _id: updatedProduct._id || "",
+        name: updatedProduct.name || "",
+        description: updatedProduct.description || "",
+        price: updatedProduct.price || 0,
+        priceDrop: updatedProduct.priceDrop || 0,
+        category: updatedProduct.category || "men",
+        sizes: updatedProduct.sizes || [],
+        deliveryInfo: updatedProduct.deliveryInfo || "",
+        onSale: updatedProduct.onSale || "no",
+        imageUrl: updatedProduct.imageUrl || "",
+      };
+
+      setProductData(adaptedProduct);
+    }
+  }, [updatedProduct]);
 
   const tileClickHandler = (size: AvailableSizesType) => {
     let sizes = [...(productData.sizes as AvailableSizesType[])];
@@ -60,7 +92,9 @@ const page = () => {
 
   const addProductHandler = async () => {
     setLoading(true);
-    const data = await addNewProduct(productData);
+    const data = updatedProduct
+      ? await updateProduct(productData)
+      : await addNewProduct(productData);
 
     if (data.success) {
       toast.success(data.message, {
@@ -68,7 +102,10 @@ const page = () => {
       });
 
       setProductData(initialProduct);
+      dispatch(setProduct(null));
       setLoading(false);
+
+      router.push("/admin-view/all-products");
     } else {
       setLoading(false);
       toast.error(data.message, {
@@ -145,11 +182,15 @@ const page = () => {
             >
               {loading ? (
                 <Loader
-                  text="Adding New Product"
+                  text={
+                    updatedProduct ? "Updating Product" : "Adding New Product"
+                  }
                   color="#ffffff"
                   loading={loading}
                   size={10}
                 />
+              ) : updatedProduct ? (
+                "Update Product"
               ) : (
                 "Add Product"
               )}

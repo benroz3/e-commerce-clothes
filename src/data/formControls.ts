@@ -50,7 +50,7 @@ export const loginFormControls = [
   {
     id: "password",
     type: "password",
-    placeholder: "Strong password",
+    placeholder: "Enter password",
     label: "Password",
     componentType: "input",
   },
