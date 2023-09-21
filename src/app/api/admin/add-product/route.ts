@@ -21,63 +21,55 @@ export async function POST(req: Request) {
   await connectMongo();
 
   try {
-    const user = "admin"; //! dummy data
+    const {
+      name,
+      description,
+      price,
+      priceDrop,
+      imageUrl,
+      category,
+      sizes,
+      deliveryInfo,
+      onSale,
+    } = await req.json();
 
-    if (user === "admin") {
-      const {
-        name,
-        description,
-        price,
-        priceDrop,
-        imageUrl,
-        category,
-        sizes,
-        deliveryInfo,
-        onSale,
-      } = await req.json();
-
-      const { error } = schema.validate({
-        name,
-        description,
-        price,
-        priceDrop,
-        imageUrl,
-        category,
-        sizes,
-        deliveryInfo,
-        onSale,
-      });
-      if (error)
-        return NextResponse.json({
-          success: false,
-          message: error.details[0].message,
-        });
-
-      const newProduct = await Product.create({
-        name,
-        description,
-        price,
-        priceDrop,
-        imageUrl,
-        category,
-        sizes,
-        deliveryInfo,
-        onSale,
-      });
-      if (newProduct)
-        return NextResponse.json({
-          success: true,
-          message: "Product created successfully!",
-        });
-      else
-        return NextResponse.json({
-          success: false,
-          message: "Failed to add product! Please try again.",
-        });
-    } else
+    const { error } = schema.validate({
+      name,
+      description,
+      price,
+      priceDrop,
+      imageUrl,
+      category,
+      sizes,
+      deliveryInfo,
+      onSale,
+    });
+    if (error)
       return NextResponse.json({
         success: false,
-        message: "You are not authorized to create a product!",
+        message: error.details[0].message,
+      });
+
+    const newProduct = await Product.create({
+      name,
+      description,
+      price,
+      priceDrop,
+      imageUrl,
+      category,
+      sizes,
+      deliveryInfo,
+      onSale,
+    });
+    if (newProduct)
+      return NextResponse.json({
+        success: true,
+        message: "Product created successfully!",
+      });
+    else
+      return NextResponse.json({
+        success: false,
+        message: "Failed to add product! Please try again.",
       });
   } catch (error) {
     console.log(error);

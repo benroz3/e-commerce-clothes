@@ -8,27 +8,19 @@ export async function GET() {
   await connectMongo();
 
   try {
-    const user = "admin"; //! dummy data
+    const products = await Product.find({});
 
-    if (user === "admin") {
-      const products = await Product.find({});
-
-      if (products)
-        return NextResponse.json({
-          success: true,
-          message: "Products fetched successfully!",
-          data: products,
-        });
-      else
-        return NextResponse.json({
-          success: false,
-          status: 204,
-          message: "No products found!",
-        });
-    } else
+    if (products)
+      return NextResponse.json({
+        success: true,
+        message: "Products fetched successfully!",
+        data: products,
+      });
+    else
       return NextResponse.json({
         success: false,
-        message: "You are not authenticated!",
+        status: 204,
+        message: "No products found!",
       });
   } catch (error) {
     console.log(error);
