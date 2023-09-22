@@ -39,7 +39,7 @@ const Login = () => {
     const data = await loginUser(userData);
     if (data.success) {
       localStorage.setItem("user", JSON.stringify(data.token.user));
-      Cookies.set("token", data.token);
+      Cookies.set("token", data.token.token);
 
       setUserData(initialUser);
       dispatch(setUser(data.token.user));

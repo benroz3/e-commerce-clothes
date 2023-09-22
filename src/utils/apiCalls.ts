@@ -7,6 +7,7 @@ import {
   UpdateProductType,
   UserType,
 } from "./types";
+import AuthUser from "@/middleware/AuthUser";
 
 dotenv.config();
 

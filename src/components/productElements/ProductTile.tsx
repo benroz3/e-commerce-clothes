@@ -1,9 +1,12 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { ProductType } from "@/utils/types";
 
 const ProductTile: React.FC<{ product: ProductType }> = ({ product }) => {
+  const router = useRouter();
+
   return (
-    <div>
+    <div onClick={() => router.push(`/product/${product._id}`)}>
       <div className="overflow-hidden aspect-w-1 aspect-h-1 h-52">
         <img
           src={product.imageUrl}
