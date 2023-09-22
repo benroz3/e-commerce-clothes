@@ -10,6 +10,7 @@ import {
 
 dotenv.config();
 
+// users ========================================================
 export const registerNewUser = async (
   formData: UserType | { [key: string]: string }
 ) => {
@@ -32,6 +33,16 @@ export const loginUser = async (
   }
 };
 
+export const fetchAllUsers = async () => {
+  try {
+    const res = await axios.get(`${process.env.APP_URL}/api/admin/all-customers`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// products ========================================================
 export const addNewProduct = async (
   formData:
     | ProductType
@@ -85,6 +96,20 @@ export const deleteProduct = async (id: string) => {
     const res = await axios.delete(`/api/admin/delete-product?id=${id}`, {
       withCredentials: true,
     });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchFilteredProducts = async (category: string) => {
+  try {
+    const res = await axios.get(
+      `${process.env.APP_URL}/api/admin/product-by-category?category=${category}`,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   } catch (error) {
     console.log(error);

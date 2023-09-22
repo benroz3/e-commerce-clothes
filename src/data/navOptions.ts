@@ -21,7 +21,7 @@ export const navOptions = [
   },
   {
     id: "listingKids",
-    label: "kids",
+    label: "Kids",
     path: "/product/listing/kids",
   },
 ];
@@ -36,5 +36,10 @@ export const adminNavOptions = [
     id: "adminNewProduct",
     label: "Add New Product",
     path: "/admin-view/add-product",
+  },
+  {
+    id: "adminCustomers",
+    label: "All Customers",
+    path: "/admin-view/all-customers",
   },
 ];

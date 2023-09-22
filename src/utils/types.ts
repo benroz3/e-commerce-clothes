@@ -13,6 +13,14 @@ export interface UserType {
   role: string;
 }
 
+export interface UserRowType {
+  _id: string;
+  username: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface UserStateType {
   user: {
     id: string;
