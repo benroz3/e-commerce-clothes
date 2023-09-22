@@ -20,7 +20,20 @@ const ProductTile: React.FC<{ product: ProductType }> = ({ product }) => {
       ) : null}
       <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
         <div className="mb-2 flex">
-          <p className="mr-3 text-sm font-semibold">{`$${product.price}`}</p>
+          <p
+            className={`mr-3 text-sm font-semibold ${
+              product.onSale === "yes" && "line-through"
+            }`}
+          >{`$${product.price}`}</p>
+          {product.onSale === "yes" ? (
+            <>
+              <p className="text-sm font-bold text-red-600">{`$${(
+                product.price -
+                product.price * (product.priceDrop / 100)
+              ).toFixed(2)}`}</p>
+              <p className="text-sm font-bold ml-1">{`(${product.priceDrop}% off)`}</p>
+            </>
+          ) : null}
         </div>
         <h3 className="mb-2 text-gray-400 text-sm">{product.name}</h3>
       </div>

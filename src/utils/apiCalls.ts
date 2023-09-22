@@ -35,7 +35,9 @@ export const loginUser = async (
 
 export const fetchAllUsers = async () => {
   try {
-    const res = await axios.get(`${process.env.APP_URL}/api/admin/all-customers`);
+    const res = await axios.get(
+      `${process.env.APP_URL}/api/admin/all-customers`
+    );
     return res.data;
   } catch (error) {
     console.log(error);
@@ -106,6 +108,20 @@ export const fetchFilteredProducts = async (category: string) => {
   try {
     const res = await axios.get(
       `${process.env.APP_URL}/api/client/product-by-category?category=${category}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchProductById = async (id: string) => {
+  try {
+    const res = await axios.get(
+      `${process.env.APP_URL}/api/client/product-by-id?id=${id}`,
       {
         withCredentials: true,
       }

@@ -24,6 +24,7 @@ const ProductsListing: React.FC<{ products: ProductType[] }> = ({
               ? products.map((product) => (
                   <article
                     key={product._id}
+                    onClick={() => router.push(`/product/${product._id}`)}
                     className="relative flex flex-col overflow-hidden border cursor-pointer"
                   >
                     <ProductTile product={product} />
