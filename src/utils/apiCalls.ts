@@ -105,7 +105,7 @@ export const deleteProduct = async (id: string) => {
 export const fetchFilteredProducts = async (category: string) => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/admin/product-by-category?category=${category}`,
+      `${process.env.APP_URL}/api/client/product-by-category?category=${category}`,
       {
         withCredentials: true,
       }
