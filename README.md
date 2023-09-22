@@ -1,10 +1,9 @@
-Clothes E-Commerce Fullstack app using Next, TypeScript, Redux Toolkit, TailwindCSS, MongoDB, Firebase, Stripe.
+Clothes E-Commerce Fullstack app using Next (as a fullstack framework), TypeScript, Redux Toolkit, TailwindCSS, MongoDB, Firebase, Stripe.
 
-* This app uses Next as a fullstack framework (client and server components).
-
-Demo Link: 
+Demo Link:
 
 Run with Docker:
+
 1. Create .env using the example
 2. Open Docker Desktop
 3. Open Terminal
@@ -12,6 +11,7 @@ Run with Docker:
 5. Type: 'docker run -dp 3000:3000 [choose-container-name]'
 
 Run without Docker:
+
 1. Create .env using the example
 2. Open Terminal
 3. Type: 'npm i'
