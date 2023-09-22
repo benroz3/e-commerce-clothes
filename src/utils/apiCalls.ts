@@ -66,7 +66,7 @@ export const addNewProduct = async (
 export const getAllProducts = async () => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/admin/all-products`,
+      `${process.env.APP_URL}/api/client/all-products`,
       {
         withCredentials: true,
       }
