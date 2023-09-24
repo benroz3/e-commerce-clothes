@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { ProductType, UpdateProductType } from "@/utils/types";
+import Loader from "../style/Loader";
+import { setShowCartModal } from "@/redux/slices/cartModalSlice";
 import { setProduct } from "@/redux/slices/productSlice";
 import { deleteProduct } from "@/utils/apiCalls/products";
-import Loader from "../style/Loader";
+import { addToCart } from "@/utils/apiCalls/cart";
+import { ProductType, RootState, UpdateProductType } from "@/utils/types";
 
 const ProductButton: React.FC<{ product: ProductType | UpdateProductType }> = ({
   product,
@@ -15,6 +17,7 @@ const ProductButton: React.FC<{ product: ProductType | UpdateProductType }> = ({
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state: RootState) => state.user);
   const isAdminView = pathname.includes("admin-view");
 
   const deleteProductHandler = async (id: string) => {
@@ -33,6 +36,25 @@ const ProductButton: React.FC<{ product: ProductType | UpdateProductType }> = ({
       toast.error(data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
+    }
+  };
+
+  const addToCartHandler = async (product: ProductType) => {
+    setLoading(true);
+    if (user) {
+      const data = await addToCart({ userID: user.id, productID: product._id });
+
+      if (data.success) {
+        toast.success(data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else
+        toast.error(data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+
+      setLoading(false);
+      dispatch(setShowCartModal());
     }
   };
 
@@ -61,7 +83,18 @@ const ProductButton: React.FC<{ product: ProductType | UpdateProductType }> = ({
     </>
   ) : (
     <>
-      <button>Add To Cart</button>
+      <button onClick={() => addToCartHandler(product as ProductType)}>
+        {loading ? (
+          <Loader
+            text={"Adding to cart"}
+            color="#ffffff"
+            loading={loading}
+            size={10}
+          />
+        ) : (
+          "Add To Cart"
+        )}
+      </button>
     </>
   );
 };

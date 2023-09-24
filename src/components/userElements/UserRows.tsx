@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import PageTransition from "../style/PageTransition";
 import { format } from "timeago.js";
 import { UserRowType } from "@/utils/types";
@@ -7,6 +8,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { fetchAllUsers } from "@/utils/apiCalls/users";
 
 const UserRows = () => {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<UserRowType[]>();
 
@@ -14,6 +16,9 @@ const UserRows = () => {
     const fetchUsers = async () => {
       const user = JSON.parse(localStorage.getItem("user") || "");
       const res = await fetchAllUsers(user.id);
+
+      if (!res.success) router.push("/admin-view");
+
       setUsers(res.data);
     };
     fetchUsers();

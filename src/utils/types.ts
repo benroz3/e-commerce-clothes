@@ -77,3 +77,8 @@ export interface UpdateProductType {
   onSale: string;
   imageUrl: string;
 }
+
+export interface CartItemType {
+  userID: string;
+  productID: string;
+}

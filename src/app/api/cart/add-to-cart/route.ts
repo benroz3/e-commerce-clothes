@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         });
 
       const isItemAlreadyExists = await Cart.find({ productID, userID });
-      if (isItemAlreadyExists)
+      if (isItemAlreadyExists?.length > 0)
         return NextResponse.json({
           success: false,
           message: "Item already in cart!",
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       if (saveToCart)
         return NextResponse.json({
           success: true,
-          message: "Item added in cart successfully!",
+          message: "Item added to cart successfully!",
         });
       else
         return NextResponse.json({
