@@ -1,5 +1,5 @@
 import ProductDetails from "@/components/productElements/ProductDetails";
-import { fetchProductById } from "@/utils/apiCalls";
+import { fetchProductById } from "@/utils/apiCalls/products";
 
 const page: React.FC<{ params: { id: string } }> = async ({ params }) => {
   const res = await fetchProductById(params.id);

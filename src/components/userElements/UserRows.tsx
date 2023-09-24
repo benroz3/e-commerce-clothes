@@ -1,14 +1,25 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageTransition from "../style/PageTransition";
 import { format } from "timeago.js";
 import { UserRowType } from "@/utils/types";
 import { AiOutlineSearch } from "react-icons/ai";
+import { fetchAllUsers } from "@/utils/apiCalls/users";
 
-const UserRows: React.FC<{ users: UserRowType[] }> = ({ users }) => {
+const UserRows = () => {
   const [search, setSearch] = useState("");
+  const [users, setUsers] = useState<UserRowType[]>();
 
-  const filteredUsers = users.filter((user) => {
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const user = JSON.parse(localStorage.getItem("user") || "");
+      const res = await fetchAllUsers(user.id);
+      setUsers(res.data);
+    };
+    fetchUsers();
+  }, []);
+
+  const filteredUsers = users?.filter((user) => {
     const query = search.toLowerCase();
 
     return (
@@ -33,8 +44,7 @@ const UserRows: React.FC<{ users: UserRowType[] }> = ({ users }) => {
           <div className="flex items-center justify-between gap-3 mt-5 w-[80vw] bg-black rounded-t p-2">
             <span className="w-[20%] text-white ml-4">Username</span>
             <span className="w-[20%] text-white">Email</span>
-            <span className="w-[20%] text-white">Created At</span>
-            <span className="w-[20%] text-white mr-4">Updated At</span>
+            <span className="w-[20%] text-white mr-4">Created At</span>
           </div>
           {filteredUsers && filteredUsers.length
             ? filteredUsers.map((user) => (
@@ -44,8 +54,7 @@ const UserRows: React.FC<{ users: UserRowType[] }> = ({ users }) => {
                 >
                   <span className="w-[20%] ml-4">{user.username}</span>
                   <span className="w-[20%]">{user.email}</span>
-                  <span className="w-[20%]">{format(user.createdAt)}</span>
-                  <span className="w-[20%] mr-4">{format(user.updatedAt)}</span>
+                  <span className="w-[20%] mr-4">{format(user.createdAt)}</span>
                 </div>
               ))
             : null}

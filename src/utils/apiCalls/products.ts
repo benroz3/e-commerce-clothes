@@ -1,51 +1,9 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import {
-  AvailableSizesType,
-  LoginUserType,
-  ProductType,
-  UpdateProductType,
-  UserType,
-} from "./types";
-import AuthUser from "@/middleware/AuthUser";
+import { AvailableSizesType, ProductType, UpdateProductType } from "../types";
 
 dotenv.config();
 
-// users ========================================================
-export const registerNewUser = async (
-  formData: UserType | { [key: string]: string }
-) => {
-  try {
-    const res = await axios.post(`/api/register`, formData);
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const loginUser = async (
-  formData: LoginUserType | { [key: string]: string }
-) => {
-  try {
-    const res = await axios.post(`/api/login`, formData);
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const fetchAllUsers = async () => {
-  try {
-    const res = await axios.get(
-      `${process.env.APP_URL}/api/admin/all-customers`
-    );
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// products ========================================================
 export const addNewProduct = async (
   formData:
     | ProductType

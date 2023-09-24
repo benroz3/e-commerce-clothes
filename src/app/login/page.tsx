@@ -8,7 +8,7 @@ import InputComponent from "@/components/formElements/InputComponent";
 import Loader from "@/components/style/Loader";
 import PageTransition from "@/components/style/PageTransition";
 import { loginFormControls } from "@/data/formControls";
-import { loginUser } from "@/utils/apiCalls";
+import { loginUser } from "@/utils/apiCalls/users";
 import { setUser } from "@/redux/slices/userSlice";
 
 const Login = () => {
@@ -37,9 +37,12 @@ const Login = () => {
   const loginHandler = async () => {
     setLoading(true);
     const data = await loginUser(userData);
+
     if (data.success) {
       localStorage.setItem("user", JSON.stringify(data.token.user));
-      Cookies.set("token", data.token.token);
+      Cookies.set("token", data.token.token, {
+        expires: 1,
+      });
 
       setUserData(initialUser);
       dispatch(setUser(data.token.user));

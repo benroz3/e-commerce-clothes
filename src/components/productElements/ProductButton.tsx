@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { ProductType, UpdateProductType } from "@/utils/types";
 import { setProduct } from "@/redux/slices/productSlice";
-import { deleteProduct } from "@/utils/apiCalls";
+import { deleteProduct } from "@/utils/apiCalls/products";
 import Loader from "../style/Loader";
 
 const ProductButton: React.FC<{ product: ProductType | UpdateProductType }> = ({

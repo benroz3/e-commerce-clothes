@@ -12,7 +12,7 @@ import Loader from "@/components/style/Loader";
 import { adminAddProductFormControls } from "@/data/formControls";
 import { uploadImageToFirebase } from "@/utils/firebase";
 import { AvailableSizes } from "@/data/sizes";
-import { addNewProduct, updateProduct } from "@/utils/apiCalls";
+import { addNewProduct, updateProduct } from "@/utils/apiCalls/products";
 import { setProduct } from "@/redux/slices/productSlice";
 import {
   AdminProductFormControlsType,
