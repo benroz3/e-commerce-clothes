@@ -24,7 +24,7 @@ export const addNewProduct = async (
 export const getAllProducts = async () => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/client/all-products`,
+      `${process.env.APP_URL}/api/client/products/all-products`,
       {
         withCredentials: true,
       }
@@ -66,7 +66,7 @@ export const deleteProduct = async (id: string) => {
 export const fetchFilteredProducts = async (category: string) => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/client/product-by-category?category=${category}`,
+      `${process.env.APP_URL}/api/client/products/product-by-category?category=${category}`,
       {
         withCredentials: true,
       }
@@ -80,7 +80,7 @@ export const fetchFilteredProducts = async (category: string) => {
 export const fetchProductById = async (id: string) => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/client/product-by-id?id=${id}`,
+      `${process.env.APP_URL}/api/client/products/product-by-id?id=${id}`,
       {
         withCredentials: true,
       }

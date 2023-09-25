@@ -8,6 +8,7 @@ import CommonModal from "./CommonModal";
 import { setShowNavModal } from "@/redux/slices/navModalSlice";
 import { removeUser, setIsAuthUser, setUser } from "@/redux/slices/userSlice";
 import { RootState } from "@/utils/types";
+import CartModal from "../cartElements/CartModal";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const { showNavModal } = useSelector((state: RootState) => state.navModal);
+  const { showCartModal } = useSelector((state: RootState) => state.cart);
   const { user, isAuthUser } = useSelector((state: RootState) => state.user);
   const isAdminView = pathname.includes("admin-view");
 
@@ -49,7 +51,7 @@ const Navbar = () => {
             {!isAdminView && isAuthUser ? (
               <Fragment>
                 <button>Account</button>
-                <button>Cart</button>
+                <button onClick={() => router.push("/cart")}>Cart</button>
               </Fragment>
             ) : null}
             {user?.role === "admin" ? (
@@ -125,6 +127,7 @@ const Navbar = () => {
         dispatch={dispatch}
         buttonComponent={<></>} //!fix
       />
+      {showCartModal && <CartModal />}
     </>
   );
 };

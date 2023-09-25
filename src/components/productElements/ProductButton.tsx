@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loader from "../style/Loader";
-import { setShowCartModal } from "@/redux/slices/cartModalSlice";
+import { setShowCartModal } from "@/redux/slices/cartSlice";
 import { setProduct } from "@/redux/slices/productSlice";
 import { deleteProduct } from "@/utils/apiCalls/products";
 import { addToCart } from "@/utils/apiCalls/cart";

@@ -1,8 +1,37 @@
 "use client";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import PageTransition from "../style/PageTransition";
-import { ProductType } from "@/utils/types";
+import Loader from "../style/Loader";
+import { addToCart } from "@/utils/apiCalls/cart";
+import { setShowCartModal } from "@/redux/slices/cartSlice";
+import { ProductType, RootState } from "@/utils/types";
 
 const ProductDetails: React.FC<{ product: ProductType }> = ({ product }) => {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state: RootState) => state.user);
+
+  const addToCartHandler = async (product: ProductType) => {
+    setLoading(true);
+    if (user) {
+      const data = await addToCart({ userID: user.id, productID: product._id });
+
+      if (data.success) {
+        toast.success(data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else
+        toast.error(data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+
+      setLoading(false);
+      dispatch(setShowCartModal());
+    }
+  };
+
   return (
     <PageTransition>
       <section className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -67,9 +96,19 @@ const ProductDetails: React.FC<{ product: ProductType }> = ({ product }) => {
                 </div>
                 <button
                   type="button"
+                  onClick={() => addToCartHandler(product)}
                   className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium tracking-wide uppercase text-white"
                 >
-                  Add to Cart
+                  {loading ? (
+                    <Loader
+                      text={"Adding to cart"}
+                      color="#ffffff"
+                      loading={loading}
+                      size={10}
+                    />
+                  ) : (
+                    "Add To Cart"
+                  )}
                 </button>
               </div>
               <ul className="mt-8 space-y-2">

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import Joi from "Joi";
-import { connectMongo } from "../../database/connectMongo";
+import { connectMongo } from "@/app/api/database/connectMongo";
 import AuthUser from "@/middleware/AuthUser";
-import Cart from "../../models/Cart";
+import Cart from "@/app/api/models/Cart";
 
 export const dynamic = "force-dynamic";
 

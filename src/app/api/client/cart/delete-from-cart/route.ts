@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { connectMongo } from "../../database/connectMongo";
+import { connectMongo } from "@/app/api/database/connectMongo";
 import AuthUser from "@/middleware/AuthUser";
-import Cart from "../../models/Cart";
+import Cart from "@/app/api/models/Cart";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request) {
+export async function DELETE(req: Request) {
   try {
     const userInfo = await AuthUser(req);
 
@@ -18,24 +18,20 @@ export async function GET(req: Request) {
       if (!id)
         return NextResponse.json({
           success: false,
-          message: "Please log in to access cart!",
+          message: "Item ID is required!",
         });
 
-      const cartItems = await Cart.find({ userID: id })
-        .populate("userID")
-        .populate("productID");
+      const deletedItem = await Cart.findByIdAndDelete(id);
 
-      if (cartItems)
+      if (deletedItem)
         return NextResponse.json({
           success: true,
-          message: "Fetched cart successfully!",
-          data: cartItems,
+          message: "Item deleted successfully!",
         });
       else
         return NextResponse.json({
           success: false,
-          status: 204,
-          message: "No cart items found!",
+          message: "Failed to delete item from cart!",
         });
     } else
       return NextResponse.json({
@@ -46,7 +42,7 @@ export async function GET(req: Request) {
     console.log(error);
     return NextResponse.json({
       success: false,
-      message: "Something went wrong while fetching the cart!",
+      message: "Something went wrong while deleting the cart!",
     });
   }
 }

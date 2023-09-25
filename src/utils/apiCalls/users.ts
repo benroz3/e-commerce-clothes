@@ -26,17 +26,11 @@ export const loginUser = async (
   }
 };
 
-export const fetchAllUsers = async (id: string) => {
+export const fetchAllUsers = async () => {
   try {
-    const res = await axios.get(
-      `/api/admin/all-customers`,
-      {
-        headers: {
-          body: id,
-        },
-        withCredentials: true,
-      }
-    );
+    const res = await axios.get(`/api/admin/all-customers`, {
+      withCredentials: true,
+    });
     return res.data;
   } catch (error) {
     console.log(error);

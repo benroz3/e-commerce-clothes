@@ -1,9 +1,8 @@
 export interface RootState {
   user: UserStateType;
   product: { updatedProduct: UpdateProductType | null };
-  navModal: {
-    showNavModal: boolean;
-  };
+  cart: { showCartModal: boolean; cartItems: PopulatedCartItemType[] };
+  navModal: { showNavModal: boolean };
 }
 
 export interface UserType {
@@ -81,4 +80,13 @@ export interface UpdateProductType {
 export interface CartItemType {
   userID: string;
   productID: string;
+}
+
+export interface PopulatedCartItemType {
+  _id: string;
+  userID: string;
+  productID: ProductType;
+  quantity: number;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -2,16 +2,21 @@ import { NextResponse } from "next/server";
 import { connectMongo } from "../../database/connectMongo";
 import User from "../../models/User";
 import { UserRowType } from "@/utils/types";
+import AuthUser from "@/middleware/AuthUser";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   try {
-    await connectMongo();
-    const id = req.headers.get("body");
-    const requestedUser = await User.findById(id);
+    const userInfo = await AuthUser(req);
 
-    if (requestedUser.role === "admin") {
+    if (
+      userInfo &&
+      typeof userInfo === "object" &&
+      "role" in userInfo &&
+      userInfo.role === "admin"
+    ) {
+      await connectMongo();
       const users = await User.find({ role: "customer" });
 
       let usersWithoutPass: UserRowType[] = [];

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { connectMongo } from "../../database/connectMongo";
-import Product from "../../models/Product";
+import { connectMongo } from "../../../database/connectMongo";
+import Product from "../../../models/Product";
 
 export const dynamic = "force-dynamic";
 
