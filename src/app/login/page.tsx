@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import InputComponent from "@/components/formElements/InputComponent";
 import Loader from "@/components/style/Loader";
 import PageTransition from "@/components/style/PageTransition";
-import { loginFormControls } from "@/data/formControls";
+import { loginFormControls } from "@/utils/data/formControls";
 import { loginUser } from "@/utils/apiCalls/users";
 import { setUser } from "@/redux/slices/userSlice";
 

@@ -136,7 +136,7 @@ export const addNewAddressFormControls = [
   {
     id: "fullName",
     type: "input",
-    placeholder: "Enter your full name",
+    placeholder: "Enter full name",
     label: "Full Name",
     componentType: "input",
   },
@@ -164,7 +164,7 @@ export const addNewAddressFormControls = [
   {
     id: "postalCode",
     type: "input",
-    placeholder: "Enter your postal code",
+    placeholder: "Enter postal code",
     label: "Postal Code",
     componentType: "input",
   },

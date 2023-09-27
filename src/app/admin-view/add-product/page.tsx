@@ -9,9 +9,9 @@ import TileComponent from "@/components/formElements/TileComponent";
 import InputComponent from "@/components/formElements/InputComponent";
 import SelectComponent from "@/components/formElements/SelectComponent";
 import Loader from "@/components/style/Loader";
-import { adminAddProductFormControls } from "@/data/formControls";
+import { adminAddProductFormControls } from "@/utils/data/formControls";
 import { uploadImageToFirebase } from "@/utils/firebase";
-import { AvailableSizes } from "@/data/sizes";
+import { AvailableSizes } from "@/utils/data/sizes";
 import { addNewProduct, updateProduct } from "@/utils/apiCalls/products";
 import { setProduct } from "@/redux/slices/productSlice";
 import {

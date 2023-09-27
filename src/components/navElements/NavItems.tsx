@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { useRouter } from "next/navigation";
-import { adminNavOptions, navOptions } from "@/data/navOptions";
+import { adminNavOptions, navOptions } from "@/utils/data/navOptions";
 import { setProduct } from "@/redux/slices/productSlice";
 
 const NavItems: React.FC<{

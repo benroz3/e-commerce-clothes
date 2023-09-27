@@ -6,7 +6,7 @@ import InputComponent from "@/components/formElements/InputComponent";
 import SelectComponent from "@/components/formElements/SelectComponent";
 import PageTransition from "@/components/style/PageTransition";
 import Loader from "@/components/style/Loader";
-import { registrationFormControls } from "@/data/formControls";
+import { registrationFormControls } from "@/utils/data/formControls";
 import { registerNewUser } from "@/utils/apiCalls/users";
 
 const Register = () => {

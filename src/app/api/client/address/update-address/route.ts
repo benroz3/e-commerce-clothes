@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import Address from "@/app/api/models/Address";
 import { connectMongo } from "@/app/api/database/connectMongo";
 import AuthUser from "@/middleware/AuthUser";
 
@@ -12,6 +13,26 @@ export async function PUT(req: Request) {
 
     if (userInfo) {
       await connectMongo();
+
+      const { _id, fullName, city, address, country, postalCode } =
+        await req.json();
+
+      const updatedAddress = await Address.findOneAndUpdate(
+        { _id },
+        { fullName, city, address, country, postalCode },
+        { new: true }
+      );
+
+      if (updatedAddress)
+        return NextResponse.json({
+          success: true,
+          message: "Address updated successfully!",
+        });
+      else
+        return NextResponse.json({
+          success: false,
+          message: "Failed to update the address!",
+        });
     } else
       return NextResponse.json({
         success: false,

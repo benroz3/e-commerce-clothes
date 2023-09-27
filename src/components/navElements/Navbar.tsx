@@ -50,7 +50,7 @@ const Navbar = () => {
           <div className="flex md:order-2 gap-2">
             {!isAdminView && isAuthUser ? (
               <Fragment>
-                <button>Account</button>
+                <button onClick={() => router.push("/account")}>Account</button>
                 <button onClick={() => router.push("/cart")}>Cart</button>
               </Fragment>
             ) : null}

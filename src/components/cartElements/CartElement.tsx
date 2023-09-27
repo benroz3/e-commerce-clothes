@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "../style/Loader";
 import { deleteItemFromCart } from "@/utils/apiCalls/cart";
@@ -9,6 +10,7 @@ const CartElement: React.FC<{
   cartItems: PopulatedCartItemType[];
   fetchCartItems: () => void;
 }> = ({ cartItems, fetchCartItems }) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const deleteFromCartHandler = async (id: string) => {
@@ -96,7 +98,9 @@ const CartElement: React.FC<{
                     ))}
                   </ul>
                 ) : (
-                  <h1 className="text-gray-400 w-[100%] text-center">Cart is empty</h1>
+                  <h1 className="text-gray-400 w-[100%] text-center">
+                    Cart is empty
+                  </h1>
                 )}
               </div>
               <div className="mt-6 border-t border-b py-2">
@@ -139,6 +143,7 @@ const CartElement: React.FC<{
                 </div>
                 <div className="mt-5 text-center">
                   <button
+                    onClick={() => router.push("/checkout")}
                     disabled={cartItems && cartItems.length === 0}
                     className="disabled:opacity-50 group inline-flex w-full justify-center"
                   >

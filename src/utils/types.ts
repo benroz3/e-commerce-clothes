@@ -2,6 +2,10 @@ export interface RootState {
   user: UserStateType;
   product: { updatedProduct: UpdateProductType | null };
   cart: { showCartModal: boolean; cartItems: PopulatedCartItemType[] };
+  address: {
+    addresses: UpdateAddressType[];
+    updatedAddress: AddressType;
+  };
   navModal: { showNavModal: boolean };
 }
 
@@ -89,4 +93,23 @@ export interface PopulatedCartItemType {
   quantity: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface AddressType {
+  fullName: string;
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
+  userID: string;
+}
+
+export interface UpdateAddressType {
+  _id: string;
+  fullName: string;
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
+  userID: string;
 }

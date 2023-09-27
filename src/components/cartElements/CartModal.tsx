@@ -124,8 +124,9 @@ const CartModal = () => {
             Go To Cart
           </button>
           <button
-            className="disabled:opacity-50 w-[100%]"
+          onClick={()=> router.push('/checkout')}
             disabled={cartItems && cartItems.length === 0}
+            className="disabled:opacity-50 w-[100%]"
           >
             Checkout
           </button>
