@@ -35,16 +35,16 @@ const CartModal = () => {
 
   const deleteFromCartHandler = async (id: string) => {
     setLoading(true);
-    const data = await deleteItemFromCart(id);
+    const res = await deleteItemFromCart(id);
 
-    if (data.success) {
-      toast.success(data.message, {
+    if (res.success) {
+      toast.success(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
 
       fetchCartItems();
     } else
-      toast.error(data.message, {
+      toast.error(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
 
@@ -109,7 +109,7 @@ const CartModal = () => {
             ))}
           </ul>
         ) : (
-          <div className="w-full text-center">Cart is empty...</div>
+          <div className="w-full text-center text-gray-400">Cart is empty.</div>
         )
       }
       buttonComponent={

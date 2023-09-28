@@ -4,7 +4,7 @@ export const cart = createSlice({
   name: "cart",
   initialState: {
     showCartModal: false,
-    cartItems: JSON.parse(localStorage.getItem("cartItems") || "[]"),
+    cartItems: [],
   },
   reducers: {
     setShowCartModal: (state) => {

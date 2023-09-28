@@ -36,19 +36,19 @@ const Login = () => {
 
   const loginHandler = async () => {
     setLoading(true);
-    const data = await loginUser(userData);
+    const res = await loginUser(userData);
 
-    if (data.success) {
-      localStorage.setItem("user", JSON.stringify(data.token.user));
-      Cookies.set("token", data.token.token, {
+    if (res.success) {
+      localStorage.setItem("user", JSON.stringify(res.token.user));
+      Cookies.set("token", res.token.token, {
         expires: 1,
       });
 
       setUserData(initialUser);
-      dispatch(setUser(data.token.user));
+      dispatch(setUser(res.token.user));
       router.push("/");
     } else
-      toast.error(data.message, {
+      toast.error(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
     setLoading(false);

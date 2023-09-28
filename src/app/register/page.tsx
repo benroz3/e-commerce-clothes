@@ -39,13 +39,13 @@ const Register = () => {
 
   const registerHandler = async () => {
     setLoading(true);
-    const data = await registerNewUser(newUser);
+    const res = await registerNewUser(newUser);
 
-    if (data.success) {
+    if (res.success) {
       setNewUser(initialUser);
       router.push("/login");
     } else
-      toast.error(data.message, {
+      toast.error(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
     setLoading(false);

@@ -100,15 +100,15 @@ const Account = () => {
   const deleteAddressHandler = async (id: string) => {
     setShowAddressForm(false);
 
-    const data = await deleteAddress(id);
+    const res = await deleteAddress(id);
 
-    if (data.success) {
+    if (res.success) {
       getAllAddresses();
-      toast.success(data.message, {
+      toast.success(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
     } else
-      toast.error(data.message, {
+      toast.error(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
   };
@@ -171,7 +171,7 @@ const Account = () => {
                       className="mt-5 w-full"
                       onClick={() => {
                         setShowAddressForm(!showAddressForm);
-                        setCurrentUpdatedAddressId('')
+                        setCurrentUpdatedAddressId("");
                         dispatch(
                           setUpdatedAddress({
                             fullName: "",

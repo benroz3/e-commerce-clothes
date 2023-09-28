@@ -104,6 +104,14 @@ export interface AddressType {
   userID: string;
 }
 
+export interface PaymentAddressType {
+  fullName: string;
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
+}
+
 export interface UpdateAddressType {
   _id: string;
   fullName: string;
@@ -112,4 +120,27 @@ export interface UpdateAddressType {
   country: string;
   postalCode: string;
   userID: string;
+}
+
+export interface StripeSessionItemType {
+  price_data: {
+    currency: string;
+    product_data: {
+      images: string[];
+      name: string;
+    };
+    unit_amount: number;
+  };
+  quantity: number;
+}
+
+export interface OrderType {
+  user: string;
+  orderItems: { quantity: number; product: string }[];
+  shippingAddress: PaymentAddressType;
+  paymentMethod: string;
+  totalPrice: Number;
+  isPaid: boolean;
+  paidAt: Date;
+  isProcessing: boolean;
 }

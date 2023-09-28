@@ -92,12 +92,12 @@ const page = () => {
 
   const addProductHandler = async () => {
     setLoading(true);
-    const data = updatedProduct
+    const res = updatedProduct
       ? await updateProduct(productData)
       : await addNewProduct(productData);
 
-    if (data.success) {
-      toast.success(data.message, {
+    if (res.success) {
+      toast.success(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
 
@@ -106,7 +106,7 @@ const page = () => {
 
       router.push("/admin-view/all-products");
     } else
-      toast.error(data.message, {
+      toast.error(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
 

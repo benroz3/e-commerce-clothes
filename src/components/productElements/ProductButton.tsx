@@ -22,21 +22,20 @@ const ProductButton: React.FC<{ product: ProductType | UpdateProductType }> = ({
 
   const deleteProductHandler = async (id: string) => {
     setLoading(true);
-    const data = await deleteProduct(id);
+    const res = await deleteProduct(id);
 
-    if (data.success) {
-      toast.success(data.message, {
+    if (res.success) {
+      toast.success(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
 
-      setLoading(false);
       router.refresh();
-    } else {
-      setLoading(false);
-      toast.error(data.message, {
+    } else
+      toast.error(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
-    }
+
+    setLoading(false);
   };
 
   const addToCartHandler = async (product: ProductType) => {
@@ -68,7 +67,7 @@ const ProductButton: React.FC<{ product: ProductType | UpdateProductType }> = ({
       >
         Update
       </button>
-      <button onClick={() => deleteProductHandler(product._id)}>
+      <button className="flex" onClick={() => deleteProductHandler(product._id)}>
         {loading ? (
           <Loader
             text={"Deleting Product"}
@@ -83,7 +82,7 @@ const ProductButton: React.FC<{ product: ProductType | UpdateProductType }> = ({
     </>
   ) : (
     <>
-      <button onClick={() => addToCartHandler(product as ProductType)}>
+      <button className="flex" onClick={() => addToCartHandler(product as ProductType)}>
         {loading ? (
           <Loader
             text={"Adding to cart"}

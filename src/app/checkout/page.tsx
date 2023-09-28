@@ -1,11 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
+import { toast } from "react-toastify";
 import Loader from "@/components/style/Loader";
 import { setAddresses } from "@/redux/slices/addressSlice";
 import { fetchAllAddresses } from "@/utils/apiCalls/address";
+import { callStripeSession, createOrder } from "@/utils/apiCalls/orders";
 import { RootState, UpdateAddressType } from "@/utils/types";
+import { fetchAllCartItems } from "@/utils/apiCalls/cart";
+import { setCartItems } from "@/redux/slices/cartSlice";
+
+const stripeKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "";
+const stripePromise = loadStripe(stripeKey);
 
 const Checkout = () => {
   const initialCheckoutFormData = {
@@ -19,7 +27,10 @@ const Checkout = () => {
 
   const dispatch = useDispatch();
   const router = useRouter();
+  const params = useSearchParams();
   const [pageLoading, setPageLoading] = useState(true);
+  const [isOrderProcessing, setIsOrderProcessing] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
   const [checkoutFormData, setCheckoutFormData] = useState(
     initialCheckoutFormData
@@ -31,7 +42,83 @@ const Checkout = () => {
   useEffect(() => {
     if (user) getAllAddresses();
     setPageLoading(false);
+    fetchCartItems();
   }, [user]);
+
+  useEffect(() => {
+    const createOrderAfterPayment = async () => {
+      const isStripe = JSON.parse(localStorage.getItem("stripe") || "false");
+
+      if (
+        isStripe &&
+        params.get("status") === "success" &&
+        cartItems &&
+        cartItems.length > 0 &&
+        user?.id
+      ) {
+        setIsOrderProcessing(true);
+
+        const checkoutData = JSON.parse(
+          localStorage.getItem("checkoutFormData") || "null"
+        );
+
+        const orderData = {
+          user: user?.id,
+          shippingAddress: checkoutData.shippingAddress,
+          orderItems: cartItems.map((item) => ({
+            quantity: 1,
+            product: item.productID._id,
+          })),
+          paymentMethod: "Stripe",
+          totalPrice: parseInt(
+            cartItems
+              .reduce(
+                (total, item) =>
+                  item.productID.onSale === "yes"
+                    ? item.productID.price -
+                      item.productID.price * (item.productID.priceDrop / 100)
+                    : item.productID.price + total,
+                0
+              )
+              .toFixed(2)
+          ),
+          isPaid: true,
+          isProcessing: true,
+          paidAt: new Date(),
+        };
+
+        const res = await createOrder(orderData);
+
+        if (res.success) {
+          setIsOrderProcessing(false);
+          setOrderSuccess(true);
+
+          toast.success(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        } else {
+          setIsOrderProcessing(false);
+          setOrderSuccess(false);
+
+          toast.error(res.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      }
+    };
+    createOrderAfterPayment();
+  }, [params.get("status"), cartItems]);
+
+  const fetchCartItems = async () => {
+    if (user) {
+      const res = await fetchAllCartItems(user?.id);
+
+      if (res.success) {
+        dispatch(setCartItems(res.data));
+        localStorage.setItem("cartItems", JSON.stringify(res.data));
+      }
+    }
+  };
 
   const getAllAddresses = async () => {
     if (user?.id) {
@@ -64,6 +151,71 @@ const Checkout = () => {
       },
     });
   };
+
+  const checkoutHandler = async () => {
+    const stripe = await stripePromise;
+    const lineItems = cartItems.map((item) => ({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          images: [item.productID.imageUrl],
+          name: item.productID.name,
+        },
+        unit_amount:
+          item.productID.onSale === "yes"
+            ? Math.floor(
+                item.productID.price -
+                  item.productID.price * (item.productID.priceDrop / 100)
+              ) * 100
+            : Math.floor(item.productID.price * 100),
+      },
+      quantity: 1,
+    }));
+
+    const res = await callStripeSession(lineItems);
+    setIsOrderProcessing(true);
+    localStorage.setItem("stripe", "true");
+    localStorage.setItem("checkoutFormData", JSON.stringify(checkoutFormData));
+
+    if (stripe) {
+      const { error } = await stripe.redirectToCheckout({ sessionId: res.id });
+      if (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  if (orderSuccess)
+    return (
+      <section className="h-screen bg-gray-200">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mt-8 max-w-screen-xl px-4 sm:px-6 lg:px-8">
+            <div className="bg-white shadow">
+              <div className="px-4 py-6 sm:px-8 sm:py-10 flex flex-col gap-5">
+                <h1 className="font-bold text-lg text-gray-500">
+                  Thank you!
+                </h1>
+                <button className="my-5 w-full px-6 py-4 text-lg">
+                  View Orders
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
+  if (isOrderProcessing)
+    return (
+      <div className="w-full min-h-screen flex justify-center items-center">
+        <Loader
+          text={""}
+          color="#000000"
+          loading={isOrderProcessing}
+          size={30}
+        />
+      </div>
+    );
 
   return (
     <>
@@ -190,6 +342,7 @@ const Checkout = () => {
                 </div>
                 <div className="pb-10">
                   <button
+                    onClick={checkoutHandler}
                     className="my-5 w-full"
                     disabled={
                       (cartItems && cartItems.length === 0) ||

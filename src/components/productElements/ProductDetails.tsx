@@ -16,14 +16,14 @@ const ProductDetails: React.FC<{ product: ProductType }> = ({ product }) => {
   const addToCartHandler = async (product: ProductType) => {
     setLoading(true);
     if (user) {
-      const data = await addToCart({ userID: user.id, productID: product._id });
+      const res = await addToCart({ userID: user.id, productID: product._id });
 
-      if (data.success) {
-        toast.success(data.message, {
+      if (res.success)
+        toast.success(res.message, {
           position: toast.POSITION.TOP_RIGHT,
         });
-      } else
-        toast.error(data.message, {
+      else
+        toast.error(res.message, {
           position: toast.POSITION.TOP_RIGHT,
         });
 
