@@ -1,6 +1,7 @@
 "use client";
 import PageTransition from "@/components/style/PageTransition";
 
+//! add more products
 //! add loaders to all pages
 //! fix overflow y in all application
 //! set cart from db when first loading or delete cart when exiting? how will it affect the checkout page?

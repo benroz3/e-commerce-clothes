@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import PageTransition from "@/components/style/PageTransition";
@@ -17,6 +18,7 @@ import {
 
 const Account = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [loadingPage, setLoadingPage] = useState(true);
   const [currentUpdatedAddressId, setCurrentUpdatedAddressId] = useState("");
@@ -133,7 +135,12 @@ const Account = () => {
                     <p>{user?.email}</p>
                     <p>{user?.role.toUpperCase()}</p>
                   </div>
-                  <button className="mt-5">View Orders</button>
+                  <button
+                    onClick={() => router.push("/orders")}
+                    className="mt-5"
+                  >
+                    View Orders
+                  </button>
                   <div className="mt-6">
                     <h1 className="font-bold text-lg">Addresses</h1>
                     <div className="mt-4 flex flex-col gap-4">

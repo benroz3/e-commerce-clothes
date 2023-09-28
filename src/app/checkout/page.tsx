@@ -109,6 +109,14 @@ const Checkout = () => {
     createOrderAfterPayment();
   }, [params.get("status"), cartItems]);
 
+  useEffect(() => {
+    if (orderSuccess)
+      setTimeout(() => {
+        setOrderSuccess(false);
+        router.push("/orders");
+      }, 2500);
+  }, [orderSuccess]);
+
   const fetchCartItems = async () => {
     if (user) {
       const res = await fetchAllCartItems(user?.id);
@@ -192,12 +200,9 @@ const Checkout = () => {
           <div className="mx-auto mt-8 max-w-screen-xl px-4 sm:px-6 lg:px-8">
             <div className="bg-white shadow">
               <div className="px-4 py-6 sm:px-8 sm:py-10 flex flex-col gap-5">
-                <h1 className="font-bold text-lg text-gray-500">
-                  Thank you!
+                <h1 className="font-bold text-lg text-gray-400">
+                  Redirecting to orders...
                 </h1>
-                <button className="my-5 w-full px-6 py-4 text-lg">
-                  View Orders
-                </button>
               </div>
             </div>
           </div>

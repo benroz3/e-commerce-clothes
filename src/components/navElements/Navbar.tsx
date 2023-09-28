@@ -22,15 +22,17 @@ const Navbar = () => {
 
   useEffect(() => {
     if (Cookies.get("token") !== undefined) {
-      dispatch(setIsAuthUser(Cookies.get("token") !== undefined));
+      dispatch(setIsAuthUser(true));
       dispatch(setUser(JSON.parse(localStorage.getItem("user") || "")));
+    } else {
+      dispatch(setIsAuthUser(false));
+      dispatch(setUser(""));
     }
   }, [Cookies, pathname]);
 
   const logoutHandler = () => {
     Cookies.remove("token");
-    // localStorage.clear()
-    localStorage.removeItem("user");
+    localStorage.clear();
     dispatch(removeUser());
   };
 
