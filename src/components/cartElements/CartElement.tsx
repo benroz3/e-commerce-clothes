@@ -145,7 +145,7 @@ const CartElement: React.FC<{
                   <button
                     onClick={() => router.push("/checkout")}
                     disabled={cartItems && cartItems.length === 0}
-                    className="disabled:opacity-50 group inline-flex w-full justify-center"
+                    className="group inline-flex w-full"
                   >
                     Checkout
                   </button>

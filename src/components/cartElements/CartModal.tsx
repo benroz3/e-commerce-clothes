@@ -18,6 +18,10 @@ const CartModal = () => {
     (state: RootState) => state.cart
   );
 
+  useEffect(() => {
+    fetchCartItems();
+  }, [user]);
+
   const fetchCartItems = async () => {
     if (user) {
       const res = await fetchAllCartItems(user?.id);
@@ -28,10 +32,6 @@ const CartModal = () => {
       }
     }
   };
-
-  useEffect(() => {
-    fetchCartItems();
-  }, [user]);
 
   const deleteFromCartHandler = async (id: string) => {
     setLoading(true);
@@ -109,13 +109,13 @@ const CartModal = () => {
             ))}
           </ul>
         ) : (
-          <div className="w-[100%] text-center">Cart is empty...</div>
+          <div className="w-full text-center">Cart is empty...</div>
         )
       }
       buttonComponent={
-        <div className="flex items-center justify-center flex-col w-[100%}">
+        <div className="flex items-center justify-center flex-col w-full">
           <button
-            className="w-[100%]"
+            className="w-full"
             onClick={() => {
               dispatch(setShowCartModal());
               router.push("/cart");
@@ -124,7 +124,10 @@ const CartModal = () => {
             Go To Cart
           </button>
           <button
-          onClick={()=> router.push('/checkout')}
+            onClick={() => {
+              dispatch(setShowCartModal());
+              router.push("/checkout");
+            }}
             disabled={cartItems && cartItems.length === 0}
             className="disabled:opacity-50 w-[100%]"
           >
@@ -133,7 +136,7 @@ const CartModal = () => {
           <div
             onClick={() => {
               dispatch(setShowCartModal());
-              router.push('/product/listing/all-products')
+              router.push("/product/listing/all-products");
             }}
             className="mt-6 flex justify-center text-center text-sm text-gray-600 cursor-pointer"
           >

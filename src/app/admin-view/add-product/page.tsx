@@ -103,15 +103,14 @@ const page = () => {
 
       setProductData(initialProduct);
       dispatch(setProduct(null));
-      setLoading(false);
 
       router.push("/admin-view/all-products");
-    } else {
-      setLoading(false);
+    } else
       toast.error(data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
-    }
+
+    setLoading(false);
   };
 
   return (
@@ -178,7 +177,7 @@ const page = () => {
             )}
             <button
               onClick={addProductHandler}
-              className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white font-medium uppercase tracking-wide"
+              className="flex w-full bg-black px-6 py-4 text-lg"
             >
               {loading ? (
                 <Loader

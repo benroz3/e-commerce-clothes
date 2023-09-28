@@ -43,15 +43,12 @@ const Register = () => {
 
     if (data.success) {
       setNewUser(initialUser);
-      setLoading(false);
-
       router.push("/login");
-    } else {
-      setLoading(false);
+    } else
       toast.error(data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
-    }
+    setLoading(false);
   };
 
   return (
@@ -65,9 +62,7 @@ const Register = () => {
                   {isRegistered ? "Registration Successful!" : "Sign Up"}
                 </p>
                 {isRegistered ? (
-                  <button className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
-                    Login
-                  </button>
+                  <button className="px-6 py-4 text-lg">Login</button>
                 ) : (
                   <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
                     {registrationFormControls.map((controlItem) =>
@@ -103,7 +98,7 @@ const Register = () => {
                     <button
                       disabled={!isUserValid()}
                       onClick={registerHandler}
-                      className="disabled:opacity-50 inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide"
+                      className="px-6 py-4 text-lg w-full flex"
                     >
                       {loading ? (
                         <Loader
@@ -120,7 +115,7 @@ const Register = () => {
                       <p>Create new account</p>
                       <button
                         onClick={() => router.push("/login")}
-                        className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide"
+                        className="px-6 py-4 text-lg w-full"
                       >
                         Login
                       </button>
