@@ -1,15 +1,19 @@
 "use client";
-import { Fragment, useEffect } from "react";
+import { Fragment, use, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import NavItems from "./NavItems";
 import CommonModal from "./CommonModal";
+import CartModal from "../cartElements/CartModal";
 import { setShowNavModal } from "@/redux/slices/navModalSlice";
 import { removeUser, setIsAuthUser, setUser } from "@/redux/slices/userSlice";
 import { RootState } from "@/utils/types";
-import CartModal from "../cartElements/CartModal";
 import { setShowCartModal } from "@/redux/slices/cartSlice";
+import {
+  protectedAdminRoutes,
+  protectedRoutes,
+} from "@/utils/data/protetedRoutes";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -26,9 +30,30 @@ const Navbar = () => {
       dispatch(setUser(JSON.parse(localStorage.getItem("user") || "")));
     } else {
       dispatch(setIsAuthUser(false));
-      dispatch(setUser(""));
+      dispatch(setUser({}));
     }
   }, [Cookies, pathname]);
+
+  useEffect(() => {
+    if (
+      user &&
+      Object.keys(user).length === 0 &&
+      protectedRoutes.indexOf(pathname) > -1
+    )
+      router.push("/login");
+
+    if (
+      user !== null &&
+      user &&
+      Object.keys(user).length > 0 &&
+      user.role === "customer" &&
+      protectedAdminRoutes.indexOf(pathname) > -1
+    )
+      router.push("/unauthorized");
+
+    if (user === null && localStorage.getItem("user") === null)
+      router.push("/login");
+  }, [user, pathname]);
 
   const logoutHandler = () => {
     Cookies.remove("token");
