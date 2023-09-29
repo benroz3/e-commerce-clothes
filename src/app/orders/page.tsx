@@ -15,7 +15,7 @@ const page = () => {
 
   useEffect(() => {
     if (user !== null) getAllOrders();
-  }, [user]);
+  }, [user?.id]);
 
   const getAllOrders = async () => {
     if (user?.id) {
