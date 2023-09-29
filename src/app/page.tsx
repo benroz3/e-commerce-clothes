@@ -1,6 +1,7 @@
 "use client";
 import PageTransition from "@/components/style/PageTransition";
 
+//! remove comments throughout the app
 //! add more products
 //! add loaders to all pages
 //! fix overflow y in all application

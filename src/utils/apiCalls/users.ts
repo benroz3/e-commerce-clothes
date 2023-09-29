@@ -28,7 +28,7 @@ export const loginUser = async (
 
 export const fetchAllUsers = async () => {
   try {
-    const res = await axios.get(`/api/admin/all-customers`, {
+    const res = await axios.get(`/api/admin/customers/get-all-customers`, {
       withCredentials: true,
     });
     return res.data;

@@ -36,9 +36,10 @@ const Navbar = () => {
 
   useEffect(() => {
     if (
+      pathname !== "/register" &&
       user &&
       Object.keys(user).length === 0 &&
-      protectedRoutes.indexOf(pathname) > -1
+      protectedRoutes.includes(pathname)
     )
       router.push("/login");
 
@@ -47,7 +48,7 @@ const Navbar = () => {
       user &&
       Object.keys(user).length > 0 &&
       user.role === "customer" &&
-      protectedAdminRoutes.indexOf(pathname) > -1
+      protectedAdminRoutes.includes(pathname)
     )
       router.push("/unauthorized");
 

@@ -144,3 +144,17 @@ export interface OrderType {
   paidAt: Date;
   isProcessing: boolean;
 }
+
+export interface PopulatedOrderType {
+  _id: string;
+  user: string;
+  orderItems: { quantity: number; product: ProductType }[];
+  shippingAddress: PaymentAddressType;
+  paymentMethod: string;
+  totalPrice: Number;
+  isPaid: boolean;
+  paidAt: Date;
+  isProcessing: boolean;
+  createdAt: string;
+  updatedAt: string;
+}

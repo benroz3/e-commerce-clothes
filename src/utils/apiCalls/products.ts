@@ -12,23 +12,9 @@ export const addNewProduct = async (
       }
 ) => {
   try {
-    const res = await axios.post(`/api/admin/add-product`, formData, {
+    const res = await axios.post(`/api/admin/products/add-product`, formData, {
       withCredentials: true,
     });
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getAllProducts = async () => {
-  try {
-    const res = await axios.get(
-      `${process.env.APP_URL}/api/client/products/all-products`,
-      {
-        withCredentials: true,
-      }
-    );
     return res.data;
   } catch (error) {
     console.log(error);
@@ -43,9 +29,13 @@ export const updateProduct = async (
       }
 ) => {
   try {
-    const res = await axios.put(`/api/admin/update-product`, formData, {
-      withCredentials: true,
-    });
+    const res = await axios.put(
+      `/api/admin/products/update-product`,
+      formData,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   } catch (error) {
     console.log(error);
@@ -54,9 +44,26 @@ export const updateProduct = async (
 
 export const deleteProduct = async (id: string) => {
   try {
-    const res = await axios.delete(`/api/admin/delete-product?id=${id}`, {
-      withCredentials: true,
-    });
+    const res = await axios.delete(
+      `/api/admin/products/delete-product?id=${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAllProducts = async () => {
+  try {
+    const res = await axios.get(
+      `${process.env.APP_URL}/api/client/products/get-all-products`,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   } catch (error) {
     console.log(error);
@@ -66,7 +73,7 @@ export const deleteProduct = async (id: string) => {
 export const fetchFilteredProducts = async (category: string) => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/client/products/product-by-category?category=${category}`,
+      `${process.env.APP_URL}/api/client/products/get-product-by-category?category=${category}`,
       {
         withCredentials: true,
       }
@@ -80,7 +87,7 @@ export const fetchFilteredProducts = async (category: string) => {
 export const fetchProductById = async (id: string) => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/client/products/product-by-id?id=${id}`,
+      `${process.env.APP_URL}/api/client/products/get-product-by-id?id=${id}`,
       {
         withCredentials: true,
       }

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import Joi from "Joi";
-import Product from "../../models/Product";
+import Product from "../../../models/Product";
 import AuthUser from "@/middleware/AuthUser";
-import { connectMongo } from "../../database/connectMongo";
+import { connectMongo } from "../../../database/connectMongo";
 
 const schema = Joi.object({
   name: Joi.string().required(),

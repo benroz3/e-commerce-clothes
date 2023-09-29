@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { connectMongo } from "../../database/connectMongo";
-import User from "../../models/User";
+import { connectMongo } from "../../../database/connectMongo";
+import User from "../../../models/User";
 import { UserRowType } from "@/utils/types";
 import AuthUser from "@/middleware/AuthUser";
 
