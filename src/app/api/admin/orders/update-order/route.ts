@@ -16,7 +16,40 @@ export async function PUT(req: Request) {
       userInfo.role === "admin"
     ) {
       await connectMongo();
-      
+
+      const {
+        _id,
+        shippingAddress,
+        orderItems,
+        paymentMethod,
+        isPaid,
+        paidAt,
+        isProcessing,
+      } = await req.json();
+
+      const updatedOrder = await Order.findByIdAndUpdate(
+        { _id },
+        {
+          shippingAddress,
+          orderItems,
+          paymentMethod,
+          isPaid,
+          paidAt,
+          isProcessing,
+        },
+        { new: true }
+      );
+
+      if (updatedOrder)
+        return NextResponse.json({
+          success: true,
+          message: "Updated order successfully!",
+        });
+      else
+        return NextResponse.json({
+          success: false,
+          message: "Failed to update the order!",
+        });
     } else
       return NextResponse.json({
         success: false,

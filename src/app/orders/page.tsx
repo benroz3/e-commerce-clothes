@@ -78,12 +78,7 @@ const page = () => {
                                 </div>
                               ))}
                             </div>
-                            <div className="flex">
-                              <button className="my-5 gap-5 mr-10">
-                                {order.isProcessing
-                                  ? "Processing"
-                                  : "Delivered"}
-                              </button>
+                            <div className="flex items-center">
                               <button
                                 className="my-5 gap-5"
                                 onClick={() =>
@@ -92,6 +87,17 @@ const page = () => {
                               >
                                 View Details
                               </button>
+                              <div
+                                className={`my-5 gap-5 ml-10 px-3 py-2 text-white ${
+                                  order.isProcessing
+                                    ? "bg-red-700"
+                                    : "bg-green-700"
+                                }`}
+                              >
+                                {order.isProcessing
+                                  ? "Processing"
+                                  : "Delivered"}
+                              </div>
                             </div>
                           </li>
                         ))}

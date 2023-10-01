@@ -1,8 +1,5 @@
 import axios from "axios";
-import dotenv from "dotenv";
 import { LoginUserType, UserType } from "../types";
-
-dotenv.config();
 
 export const registerNewUser = async (
   formData: UserType | { [key: string]: string }

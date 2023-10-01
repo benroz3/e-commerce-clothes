@@ -44,7 +44,6 @@ const Navbar = () => {
       router.push("/login");
 
     if (
-      user !== null &&
       user &&
       Object.keys(user).length > 0 &&
       user.role === "customer" &&

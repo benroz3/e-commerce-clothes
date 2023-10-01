@@ -1,8 +1,5 @@
 import axios from "axios";
-import dotenv from "dotenv";
 import { AvailableSizesType, ProductType, UpdateProductType } from "../types";
-
-dotenv.config();
 
 export const addNewProduct = async (
   formData:
@@ -59,7 +56,7 @@ export const deleteProduct = async (id: string) => {
 export const getAllProducts = async () => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/client/products/get-all-products`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/client/products/get-all-products`,
       {
         withCredentials: true,
       }
@@ -73,7 +70,7 @@ export const getAllProducts = async () => {
 export const fetchFilteredProducts = async (category: string) => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/client/products/get-product-by-category?category=${category}`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/client/products/get-product-by-category?category=${category}`,
       {
         withCredentials: true,
       }
@@ -87,7 +84,7 @@ export const fetchFilteredProducts = async (category: string) => {
 export const fetchProductById = async (id: string) => {
   try {
     const res = await axios.get(
-      `${process.env.APP_URL}/api/client/products/get-product-by-id?id=${id}`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/client/products/get-product-by-id?id=${id}`,
       {
         withCredentials: true,
       }

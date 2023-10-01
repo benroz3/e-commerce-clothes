@@ -147,7 +147,7 @@ export interface OrderType {
 
 export interface PopulatedOrderType {
   _id: string;
-  user: string;
+  user: UserRowType;
   orderItems: { quantity: number; product: ProductType }[];
   shippingAddress: PaymentAddressType;
   paymentMethod: string;

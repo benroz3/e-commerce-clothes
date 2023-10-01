@@ -16,7 +16,22 @@ export async function GET(req: Request) {
       userInfo.role === "admin"
     ) {
       await connectMongo();
-      
+
+      const orders = await Order.find({})
+        .populate("orderItems.product")
+        .populate("user", "-password");
+
+      if (orders)
+        return NextResponse.json({
+          success: true,
+          message: "Orders fetched successfully!",
+          data: orders,
+        });
+      else
+        return NextResponse.json({
+          success: false,
+          message: "Failed to fetch orders!",
+        });
     } else
       return NextResponse.json({
         success: false,
@@ -26,7 +41,7 @@ export async function GET(req: Request) {
     console.log(error);
     return NextResponse.json({
       success: false,
-      message: "There was an error deleting the product!",
+      message: "There was an error fetching the orders!",
     });
   }
 }
