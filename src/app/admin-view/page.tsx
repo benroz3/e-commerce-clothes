@@ -59,11 +59,11 @@ const page = () => {
       ) : (
         <PageTransition>
           <section>
-            <div className="mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
               <div>
                 <div className="px-4 py-6 sm:px-8 sm:py-10">
                   <div className="flow-root">
-                    {allOrders && allOrders.length ? (
+                    {allOrders && allOrders.length && (
                       <ul className="flex flex-col gap-4">
                         {allOrders.map((order) => (
                           <li
@@ -142,7 +142,7 @@ const page = () => {
                           </li>
                         ))}
                       </ul>
-                    ) : null}
+                    )}
                   </div>
                 </div>
               </div>

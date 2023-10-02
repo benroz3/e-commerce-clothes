@@ -126,8 +126,8 @@ export const adminAddProductFormControls = [
   {
     id: "priceDrop",
     type: "number",
-    placeholder: "Enter price drop",
-    label: "Price Drop",
+    placeholder: "Enter price drop in percentages",
+    label: "Price Drop (%)",
     componentType: "input",
   },
 ];

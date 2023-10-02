@@ -54,40 +54,39 @@ const page: React.FC<{ params: { id: string } }> = ({ params }) => {
             <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
               <div className="flex flex-col justify-start items-start bg-gray-100 px-4 py-4 md:p-6 xl:p-8 w-full">
                 <p className="font-bold text-lg">Order Summary</p>
-                {order?.orderItems
-                  ? order.orderItems.map((product) => (
-                      <div
-                        key={product.product._id}
-                        className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
-                      >
-                        <div className="pb-4 md:pb-8 w-full md:w-40">
-                          <img
-                            src={product.product.imageUrl}
-                            alt="Product image"
-                            className="w-full hidden md:block"
-                          />
+                {order?.orderItems &&
+                  order.orderItems.map((product) => (
+                    <div
+                      key={product.product._id}
+                      className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
+                    >
+                      <div className="pb-4 md:pb-8 w-full md:w-40">
+                        <img
+                          src={product.product.imageUrl}
+                          alt="Product image"
+                          className="w-full hidden md:block"
+                        />
+                      </div>
+                      <div className="border-b border-gray-300 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
+                        <div className="w-full flex flex-col justify-start items-start space-y-8">
+                          <h3 className="text-xl font-semibold leading-6 text-gray-900">
+                            {product.product.name}
+                          </h3>
                         </div>
-                        <div className="border-b border-gray-300 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
-                          <div className="w-full flex flex-col justify-start items-start space-y-8">
-                            <h3 className="text-xl font-semibold leading-6 text-gray-900">
-                              {product.product.name}
-                            </h3>
-                          </div>
-                          <div className="w-full flex justify-between items-start space-x-8">
-                            <h3 className="text-xl font-semibold leading-6 text-gray-900">
-                              $
-                              {(product.product.onSale === "yes"
-                                ? product.product.price -
-                                  product.product.price *
-                                    (product.product.priceDrop / 100)
-                                : product.product.price
-                              ).toFixed(2)}
-                            </h3>
-                          </div>
+                        <div className="w-full flex justify-between items-start space-x-8">
+                          <h3 className="text-xl font-semibold leading-6 text-gray-900">
+                            $
+                            {(product.product.onSale === "yes"
+                              ? product.product.price -
+                                product.product.price *
+                                  (product.product.priceDrop / 100)
+                              : product.product.price
+                            ).toFixed(2)}
+                          </h3>
                         </div>
                       </div>
-                    ))
-                  : null}
+                    </div>
+                  ))}
               </div>
               <div className="flex justify-center flex-col md:flex-row items-stretch w-full space-y-4 md:space-y-0 md:space-x-5 xl:space-x-8">
                 <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-100 space-y-6">

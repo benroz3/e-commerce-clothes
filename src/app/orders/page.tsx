@@ -47,7 +47,7 @@ const page = () => {
               <div>
                 <div className="px-4 py-6 sm:px-8 sm:py-10">
                   <div className="flow-root">
-                    {orders && orders.length ? (
+                    {orders && orders.length && (
                       <ul className="flex flex-col gap-4">
                         {orders.map((order) => (
                           <li
@@ -102,7 +102,7 @@ const page = () => {
                           </li>
                         ))}
                       </ul>
-                    ) : null}
+                    )}
                   </div>
                 </div>
               </div>

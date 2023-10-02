@@ -53,7 +53,6 @@ const CartModal = () => {
 
   return (
     <CommonModal
-      modalTitle="Cart"
       mainContent={
         cartItems && cartItems.length ? (
           <ul role="list" className="my-6 divide-y divide-gray-300">
@@ -81,13 +80,13 @@ const CartModal = () => {
                       >
                         ${item.productID && item.productID.price}
                       </p>
-                      {item.productID.onSale === "yes" ? (
+                      {item.productID.onSale === "yes" && (
                         <p className="text-sm font-bold text-red-600">{`$${(
                           item.productID.price -
                           item.productID.price *
                             (item.productID.priceDrop / 100)
                         ).toFixed(2)}`}</p>
-                      ) : null}
+                      )}
                     </div>
                     <div className="flex flex-1 items-end justify-between text-sm">
                       <button onClick={() => deleteFromCartHandler(item._id)}>
@@ -145,7 +144,6 @@ const CartModal = () => {
           </div>
         </div>
       }
-      showModalTitle={false}
       showButtons={true}
       show={showCartModal}
       setShow={setShowCartModal}

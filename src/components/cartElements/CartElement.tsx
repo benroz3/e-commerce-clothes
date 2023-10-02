@@ -70,13 +70,13 @@ const CartElement: React.FC<{
                               >
                                 ${item && item.productID.price}
                               </p>
-                              {item.productID.onSale === "yes" ? (
+                              {item.productID.onSale === "yes" && (
                                 <p className="text-sm font-bold text-red-600">{`$${(
                                   item.productID.price -
                                   item.productID.price *
                                     (item.productID.priceDrop / 100)
                                 ).toFixed(2)}`}</p>
-                              ) : null}
+                              )}
                             </div>
                             <button
                               onClick={() => deleteFromCartHandler(item._id)}

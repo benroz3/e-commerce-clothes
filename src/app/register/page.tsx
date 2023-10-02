@@ -10,8 +10,6 @@ import { registrationFormControls } from "@/utils/data/formControls";
 import { registerNewUser } from "@/utils/apiCalls/users";
 
 const Register = () => {
-  const isRegistered = false; //! dummy data
-
   const initialUser: { [key: string]: string } = {
     username: "",
     email: "",
@@ -59,28 +57,27 @@ const Register = () => {
             <div className="w-full mt-20 mr-0 mb-0 ml-0 relative max-w-2xl lg:mt-0 lg:w-5/12">
               <div className="flex flex-col items-center justify-start p-10 bg-white shadow-2xl rounded-xl relative z-10">
                 <p className="w-full text-4xl font-medium text-center font-serif">
-                  {isRegistered ? "Registration Successful!" : "Sign Up"}
+                  Sign Up
                 </p>
-                {isRegistered ? (
-                  <button className="px-6 py-4 text-lg">Login</button>
-                ) : (
-                  <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
-                    {registrationFormControls.map((controlItem) =>
-                      controlItem.componentType === "input" ? (
-                        <InputComponent
-                          key={controlItem.id}
-                          label={controlItem.label}
-                          placeholder={controlItem.placeholder}
-                          type={controlItem.type}
-                          value={newUser[controlItem.id]}
-                          onChange={(event) => {
-                            setNewUser({
-                              ...newUser,
-                              [controlItem.id]: event.target.value,
-                            });
-                          }}
-                        />
-                      ) : controlItem.componentType === "select" ? (
+
+                <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
+                  {registrationFormControls.map((controlItem) =>
+                    controlItem.componentType === "input" ? (
+                      <InputComponent
+                        key={controlItem.id}
+                        label={controlItem.label}
+                        placeholder={controlItem.placeholder}
+                        type={controlItem.type}
+                        value={newUser[controlItem.id]}
+                        onChange={(event) => {
+                          setNewUser({
+                            ...newUser,
+                            [controlItem.id]: event.target.value,
+                          });
+                        }}
+                      />
+                    ) : (
+                      controlItem.componentType === "select" && (
                         <SelectComponent
                           key={controlItem.id}
                           label={controlItem.label}
@@ -93,35 +90,35 @@ const Register = () => {
                             });
                           }}
                         />
-                      ) : null
+                      )
+                    )
+                  )}
+                  <button
+                    disabled={!isUserValid()}
+                    onClick={registerHandler}
+                    className="px-6 py-4 text-lg w-full flex"
+                  >
+                    {loading ? (
+                      <Loader
+                        text="Registering"
+                        color="#ffffff"
+                        loading={loading}
+                        size={10}
+                      />
+                    ) : (
+                      "Register"
                     )}
+                  </button>
+                  <div className="flex flex-col gap-2">
+                    <p>Create new account</p>
                     <button
-                      disabled={!isUserValid()}
-                      onClick={registerHandler}
-                      className="px-6 py-4 text-lg w-full flex"
+                      onClick={() => router.push("/login")}
+                      className="px-6 py-4 text-lg w-full"
                     >
-                      {loading ? (
-                        <Loader
-                          text="Registering"
-                          color="#ffffff"
-                          loading={loading}
-                          size={10}
-                        />
-                      ) : (
-                        "Register"
-                      )}
+                      Login
                     </button>
-                    <div className="flex flex-col gap-2">
-                      <p>Create new account</p>
-                      <button
-                        onClick={() => router.push("/login")}
-                        className="px-6 py-4 text-lg w-full"
-                      >
-                        Login
-                      </button>
-                    </div>
                   </div>
-                )}
+                </div>
               </div>
             </div>
           </div>

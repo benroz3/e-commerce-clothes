@@ -14,7 +14,6 @@ const Loader: React.FC<{
         color={color}
         loading={loading}
         size={size || 10}
-        data-testid="loader"
       />
     </span>
   );

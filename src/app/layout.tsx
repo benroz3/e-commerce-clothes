@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider store={store}>
           <Navbar />
-          <main className="flex min-h-screen flex-col mt-[80px]">
+          <main className="flex min-h--[80%] flex-col mt-[80px]">
             {children}
           </main>
           <ToastContainer />

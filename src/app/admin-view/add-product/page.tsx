@@ -40,6 +40,7 @@ const page = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
+  const [file, setFile] = useState<File>();
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState(initialProduct);
   const { updatedProduct } = useSelector((state: RootState) => state.product);
@@ -80,8 +81,10 @@ const page = () => {
 
   const imageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
     let imageFirebaseUrl;
-    if (event && event.target && event.target.files)
+    if (event && event.target && event.target.files) {
+      setFile(event?.target?.files[0]);
       imageFirebaseUrl = await uploadImageToFirebase(event?.target?.files[0]);
+    }
 
     if (imageFirebaseUrl)
       setProductData({
@@ -132,6 +135,7 @@ const page = () => {
             >
               Choose Product Image
             </label>
+            <span className="ml-3 text-gray-400">{file && file.name}</span>
             <div className="flex gap-2 flex-col">
               <label>Available sizes</label>
               <TileComponent
@@ -156,24 +160,26 @@ const page = () => {
                       })
                     }
                   />
-                ) : control.componentType === "select" ? (
-                  <SelectComponent
-                    key={control.id}
-                    label={control.label}
-                    value={productData[control.id]?.toString() || ""}
-                    options={
-                      control.options
-                        ? control.options
-                        : [{ id: "", label: "" }]
-                    }
-                    onChange={(event) =>
-                      setProductData({
-                        ...productData,
-                        [control.id]: event.target.value,
-                      })
-                    }
-                  />
-                ) : null
+                ) : (
+                  control.componentType === "select" && (
+                    <SelectComponent
+                      key={control.id}
+                      label={control.label}
+                      value={productData[control.id]?.toString() || ""}
+                      options={
+                        control.options
+                          ? control.options
+                          : [{ id: "", label: "" }]
+                      }
+                      onChange={(event) =>
+                        setProductData({
+                          ...productData,
+                          [control.id]: event.target.value,
+                        })
+                      }
+                    />
+                  )
+                )
             )}
             <button
               onClick={addProductHandler}

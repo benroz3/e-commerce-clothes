@@ -1,11 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 import PageTransition from "@/components/style/PageTransition";
 import Loader from "@/components/style/Loader";
 import { getAllProducts } from "@/utils/apiCalls/products";
+import { setCartItems } from "@/redux/slices/cartSlice";
 import { ProductType, RootState } from "@/utils/types";
+import { fetchAllCartItems } from "@/utils/apiCalls/cart";
+import { useDispatch, useSelector } from "react-redux";
 import {
   mainImg,
   kidsImg,
@@ -13,31 +16,31 @@ import {
   menImage,
 } from "@/utils/data/landingPageImages";
 
-//! remove comments throughout the app
-//! add more products
-//! add loaders to all pages
-//! fix after purchase routing
-//! replace null with && in trinary expressions
-//! delete user from local storage when token expires - user is is still in local storage and it causes bugs
-//! delete local storage cart whenever...
-//! fix overflow y in all application
-//! set cart from db when first loading or delete cart when exiting? how will it affect the checkout page?
-
 export default function Home() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [products, setProducts] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState(true);
-  const { isAuthUser } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+    fetchCartItems();
+    if (!Cookies.get("token")) localStorage.clear();
+  }, [user?.id]);
 
   const fetchProducts = async () => {
     const res = await getAllProducts();
 
     if (res.success) setProducts(res.data);
     setLoading(false);
+  };
+
+  const fetchCartItems = async () => {
+    if (user) {
+      const res = await fetchAllCartItems(user?.id);
+      if (res.success) dispatch(setCartItems(res.data));
+    }
   };
 
   return (
@@ -78,7 +81,7 @@ export default function Home() {
                         End Of Season Sale
                       </h2>
                     </div>
-                    <button>Show All</button>
+                    <button className="w-full">Show All</button>
                   </div>
                 </div>
                 <div className="lg:col-span-2 lg:py-8">

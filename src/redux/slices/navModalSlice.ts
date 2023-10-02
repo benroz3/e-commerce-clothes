@@ -7,10 +7,13 @@ export const navModal = createSlice({
   },
   reducers: {
     setShowNavModal: (state) => {
-      state.showNavModal = !state.showNavModal
+      state.showNavModal = !state.showNavModal;
+    },
+    closeNavModal: (state) => {
+      state.showNavModal = false;
     },
   },
 });
 
-export const { setShowNavModal } = navModal.actions;
+export const { setShowNavModal, closeNavModal } = navModal.actions;
 export default navModal.reducer;

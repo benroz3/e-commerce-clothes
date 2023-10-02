@@ -60,16 +60,6 @@ const ProductDetails: React.FC<{ product: ProductType }> = ({ product }) => {
                         alt="Product Details"
                       />
                     </button>
-                    <button
-                      type="button"
-                      className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-100 text-center"
-                    >
-                      <img
-                        src={product.imageUrl}
-                        className="h-full w-full object-cover"
-                        alt="Product Details"
-                      />
-                    </button>
                   </div>
                 </div>
               </div>
@@ -87,12 +77,12 @@ const ProductDetails: React.FC<{ product: ProductType }> = ({ product }) => {
                   >
                     ${product.price}
                   </h1>
-                  {product.onSale === "yes" ? (
+                  {product.onSale === "yes" && (
                     <h1 className="text-3xl font-bold text-red-600">{`$${(
                       product.price -
                       product.price * (product.priceDrop / 100)
                     ).toFixed(2)}`}</h1>
-                  ) : null}
+                  )}
                 </div>
                 <button
                   type="button"

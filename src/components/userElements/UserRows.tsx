@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import PageTransition from "../style/PageTransition";
+import Loader from "../style/Loader";
 import { format } from "timeago.js";
 import { UserRowType } from "@/utils/types";
 import { AiOutlineSearch } from "react-icons/ai";
 import { fetchAllUsers } from "@/utils/apiCalls/users";
-import Loader from "../style/Loader";
 
 const UserRows = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const UserRows = () => {
       const res = await fetchAllUsers();
       if (!res.success) router.push("/admin-view");
       setUsers(res.data);
-      setLoading(false)
+      setLoading(false);
     };
     fetchUsers();
   }, []);
@@ -41,7 +41,7 @@ const UserRows = () => {
         </div>
       ) : (
         <PageTransition>
-          <div className="flex items-center ml-8 mt-3 border-b border-b-black w-[20%]">
+          <div className="flex items-center justify-between ml-8 mt-3 border-b border-b-black w-[20%]">
             <input
               type="text"
               placeholder="Search by name or email"
@@ -55,22 +55,22 @@ const UserRows = () => {
               <div className="flex items-center justify-between gap-3 mt-5 w-[80vw] bg-black rounded-t p-2">
                 <span className="w-[20%] text-white ml-4">Username</span>
                 <span className="w-[20%] text-white">Email</span>
-                <span className="w-[20%] text-white mr-4">Created At</span>
+                <span className="w-[20%] text-white mr-4">Created</span>
               </div>
-              {filteredUsers && filteredUsers.length
-                ? filteredUsers.map((user) => (
-                    <div
-                      key={user._id}
-                      className="flex items-center justify-between gap-3 w-[80vw] bg-gray-300 p-2"
-                    >
-                      <span className="w-[20%] ml-4">{user.username}</span>
-                      <span className="w-[20%]">{user.email}</span>
-                      <span className="w-[20%] mr-4">
-                        {format(user.createdAt)}
-                      </span>
-                    </div>
-                  ))
-                : null}
+              {filteredUsers &&
+                filteredUsers.length &&
+                filteredUsers.map((user) => (
+                  <div
+                    key={user._id}
+                    className="flex items-center justify-between gap-3 w-[80vw] bg-gray-300 p-2"
+                  >
+                    <span className="w-[20%] ml-4">{user.username}</span>
+                    <span className="w-[20%]">{user.email}</span>
+                    <span className="w-[20%] mr-4">
+                      {format(user.createdAt)}
+                    </span>
+                  </div>
+                ))}
             </div>
           </div>
         </PageTransition>

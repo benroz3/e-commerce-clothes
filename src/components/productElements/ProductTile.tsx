@@ -14,13 +14,13 @@ const ProductTile: React.FC<{ product: ProductType }> = ({ product }) => {
           className="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
         />
       </div>
-      {product.onSale === "yes" ? (
+      {product.onSale === "yes" && (
         <div className="absolute top-0 m-2 rounded-full bg-black">
           <p className="rounded-full p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
             Sale
           </p>
         </div>
-      ) : null}
+      )}
       <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
         <div className="mb-2 flex">
           <p
@@ -28,7 +28,7 @@ const ProductTile: React.FC<{ product: ProductType }> = ({ product }) => {
               product.onSale === "yes" && "line-through"
             }`}
           >{`$${product.price}`}</p>
-          {product.onSale === "yes" ? (
+          {product.onSale === "yes" && (
             <>
               <p className="text-sm font-bold text-red-600">{`$${(
                 product.price -
@@ -36,7 +36,7 @@ const ProductTile: React.FC<{ product: ProductType }> = ({ product }) => {
               ).toFixed(2)}`}</p>
               <p className="text-sm font-bold ml-1">{`(${product.priceDrop}% off)`}</p>
             </>
-          ) : null}
+          )}
         </div>
         <h3 className="mb-2 text-gray-400 text-sm">{product.name}</h3>
       </div>

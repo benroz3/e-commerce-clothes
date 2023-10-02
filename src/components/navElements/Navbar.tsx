@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import NavItems from "./NavItems";
 import CommonModal from "./CommonModal";
 import CartModal from "../cartElements/CartModal";
-import { setShowNavModal } from "@/redux/slices/navModalSlice";
+import { closeNavModal, setShowNavModal } from "@/redux/slices/navModalSlice";
 import { removeUser, setIsAuthUser, setUser } from "@/redux/slices/userSlice";
 import { RootState } from "@/utils/types";
 import { setShowCartModal } from "@/redux/slices/cartSlice";
@@ -27,7 +27,7 @@ const Navbar = () => {
   useEffect(() => {
     if (Cookies.get("token") !== undefined) {
       dispatch(setIsAuthUser(true));
-      dispatch(setUser(JSON.parse(localStorage.getItem("user") || "")));
+      dispatch(setUser(JSON.parse(localStorage.getItem("user") || "{}")));
     } else {
       dispatch(setIsAuthUser(false));
       dispatch(setUser({}));
@@ -76,14 +76,19 @@ const Navbar = () => {
             </span>
           </div>
           <div className="flex md:order-2 gap-2">
-            {!isAdminView && isAuthUser ? (
+            {!isAdminView && isAuthUser && (
               <Fragment>
                 <button onClick={() => router.push("/account")}>Account</button>
-                <button onClick={() => dispatch(setShowCartModal())}>
+                <button
+                  onClick={() => {
+                    dispatch(setShowCartModal());
+                    dispatch(closeNavModal());
+                  }}
+                >
                   Cart
                 </button>
               </Fragment>
-            ) : null}
+            )}
             {user?.role === "admin" ? (
               isAdminView ? (
                 <button
@@ -141,7 +146,6 @@ const Navbar = () => {
         </div>
       </nav>
       <CommonModal
-        modalTitle={"Clothing-X"} //!fix
         mainContent={
           <NavItems
             isModal={true}
@@ -150,12 +154,11 @@ const Navbar = () => {
             dispatch={dispatch}
           />
         }
-        showModalTitle={true}
         showButtons={true}
         show={showNavModal}
         setShow={setShowNavModal}
         dispatch={dispatch}
-        buttonComponent={<></>} //!fix
+        buttonComponent={<></>}
       />
       {showCartModal && <CartModal />}
     </>

@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PageTransition from "@/components/style/PageTransition";
+import Loader from "@/components/style/Loader";
 import CartElement from "@/components/cartElements/CartElement";
 import { fetchAllCartItems } from "@/utils/apiCalls/cart";
 import { setCartItems } from "@/redux/slices/cartSlice";
 import { RootState } from "@/utils/types";
-import Loader from "@/components/style/Loader";
 
 const Cart = () => {
   const dispatch = useDispatch();
