@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Joi from "Joi";
+import Joi from "joi";
 import Product from "../../../models/Product";
 import AuthUser from "@/middleware/AuthUser";
 import { connectMongo } from "../../../database/connectMongo";

@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import Joi from "Joi";
+import Joi from "joi";
 import bcrypt from "bcrypt";
 import User from "../models/User";
 import { connectMongo } from "../database/connectMongo";
 
-//request validator
 const schema = Joi.object({
   username: Joi.string().required(),
   email: Joi.string().email().required(),

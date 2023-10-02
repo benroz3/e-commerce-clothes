@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import dotenv from "dotenv";
-import Joi from "Joi";
+import Joi from "joi";
 import jwt from "jsonwebtoken";
 import { compare } from "bcrypt";
 import User from "../models/User";
