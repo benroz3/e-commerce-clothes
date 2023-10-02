@@ -118,59 +118,42 @@ const page = () => {
 
   return (
     <PageTransition>
-      <div className="w-full mt-5 mr-0 mb-0 ml-0 relative">
-        <div className="flex flex-col items-start justify-start p-10 bg-white shadow-2xl rounded-xl relative">
-          <div className="w-full mt-6 mr-0 mb-0 ml-0 space-y-8">
-            <input
-              className="hidden file:bg-black "
-              accept="image/*"
-              max="1000000"
-              type="file"
-              id="img"
-              onChange={imageHandler}
-            />
-            <label
-              htmlFor="img"
-              className="bg-black text-white border-none outline-none p-2 cursor-pointer hover:bg-gray-300 hover:text-black hover:border-black hover:transition hover:ease-in hover:duration-150"
-            >
-              Choose Product Image
-            </label>
-            <span className="ml-3 text-gray-400">{file && file.name}</span>
-            <div className="flex gap-2 flex-col">
-              <label>Available sizes</label>
-              <TileComponent
-                data={AvailableSizes}
-                selectedData={productData.sizes as AvailableSizesType[]}
-                onClick={tileClickHandler}
+      <div className="flex items-center justify-center flex-col">
+        <div className="max-w-screen-xl items-center justify-center w-full mt-5 mr-0 mb-0 ml-0 relative">
+          <div className="flex flex-col items-start justify-start p-10 bg-white shadow-2xl rounded-xl relative">
+            <div className="w-full mt-6 mr-0 mb-0 ml-0 space-y-8">
+              <input
+                className="hidden file:bg-black "
+                accept="image/*"
+                max="1000000"
+                type="file"
+                id="img"
+                onChange={imageHandler}
               />
-            </div>
-            {adminAddProductFormControls.map(
-              (control: AdminProductFormControlsType) =>
-                control.componentType === "input" ? (
-                  <InputComponent
-                    key={control.id}
-                    label={control.label}
-                    placeholder={control.placeholder}
-                    type={control.type}
-                    value={productData[control.id]?.toString() || ""}
-                    onChange={(event) =>
-                      setProductData({
-                        ...productData,
-                        [control.id]: event.target.value,
-                      })
-                    }
-                  />
-                ) : (
-                  control.componentType === "select" && (
-                    <SelectComponent
+              <label
+                htmlFor="img"
+                className="bg-black text-white border-none outline-none p-2 cursor-pointer hover:bg-gray-300 hover:text-black hover:border-black hover:transition hover:ease-in hover:duration-150"
+              >
+                Choose Product Image
+              </label>
+              <span className="ml-3 text-gray-400">{file && file.name}</span>
+              <div className="flex gap-2 flex-col">
+                <label>Available sizes</label>
+                <TileComponent
+                  data={AvailableSizes}
+                  selectedData={productData.sizes as AvailableSizesType[]}
+                  onClick={tileClickHandler}
+                />
+              </div>
+              {adminAddProductFormControls.map(
+                (control: AdminProductFormControlsType) =>
+                  control.componentType === "input" ? (
+                    <InputComponent
                       key={control.id}
                       label={control.label}
+                      placeholder={control.placeholder}
+                      type={control.type}
                       value={productData[control.id]?.toString() || ""}
-                      options={
-                        control.options
-                          ? control.options
-                          : [{ id: "", label: "" }]
-                      }
                       onChange={(event) =>
                         setProductData({
                           ...productData,
@@ -178,28 +161,47 @@ const page = () => {
                         })
                       }
                     />
+                  ) : (
+                    control.componentType === "select" && (
+                      <SelectComponent
+                        key={control.id}
+                        label={control.label}
+                        value={productData[control.id]?.toString() || ""}
+                        options={
+                          control.options
+                            ? control.options
+                            : [{ id: "", label: "" }]
+                        }
+                        onChange={(event) =>
+                          setProductData({
+                            ...productData,
+                            [control.id]: event.target.value,
+                          })
+                        }
+                      />
+                    )
                   )
-                )
-            )}
-            <button
-              onClick={addProductHandler}
-              className="flex w-full bg-black px-6 py-4 text-lg"
-            >
-              {loading ? (
-                <Loader
-                  text={
-                    updatedProduct ? "Updating Product" : "Adding New Product"
-                  }
-                  color="#ffffff"
-                  loading={loading}
-                  size={10}
-                />
-              ) : updatedProduct ? (
-                "Update Product"
-              ) : (
-                "Add Product"
               )}
-            </button>
+              <button
+                onClick={addProductHandler}
+                className="flex w-full bg-black px-6 py-4 text-lg"
+              >
+                {loading ? (
+                  <Loader
+                    text={
+                      updatedProduct ? "Updating Product" : "Adding New Product"
+                    }
+                    color="#ffffff"
+                    loading={loading}
+                    size={10}
+                  />
+                ) : updatedProduct ? (
+                  "Update Product"
+                ) : (
+                  "Add Product"
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>
